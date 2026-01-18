@@ -434,12 +434,13 @@ export function EditItemForm({
           justifyContent: 'flex-end',
         })}
       >
-        <Button type="button" variant="secondary" onClick={onCancel}>
+        <Button type="button" variant="solid" color="mauve" onClick={onCancel}>
           Cancel
         </Button>
         <Button
           type="submit"
-          variant="primary"
+          variant="solid"
+          color="sky"
           disabled={updateMutation.isPending}
           loading={updateMutation.isPending}
         >

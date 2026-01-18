@@ -69,7 +69,8 @@ export function InventoryCard({ item, onEdit }: InventoryCardProps) {
         </h3>
         {onEdit && (
           <Button
-            variant="secondary"
+            variant="solid"
+            color="mauve"
             onClick={onEdit}
             className={css({
               padding: '0.5rem 1rem',

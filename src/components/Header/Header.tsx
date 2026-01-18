@@ -40,7 +40,12 @@ export function Header() {
         >
           {user?.email}
         </span>
-        <Button variant="danger" size="small" onClick={() => signOut()}>
+        <Button
+          variant="solid"
+          color="rose"
+          size="small"
+          onClick={() => signOut()}
+        >
           Sign Out
         </Button>
       </div>

@@ -75,11 +75,12 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
               gap: '1rem',
             })}
           >
-            <Button variant="primary" onClick={() => setMode('scan')}>
+            <Button variant="solid" color="sky" onClick={() => setMode('scan')}>
               Scan barcode
             </Button>
             <Button
-              variant="secondary"
+              variant="solid"
+              color="mauve"
               onClick={() => {
                 setPrefill(undefined)
                 setMode('form')

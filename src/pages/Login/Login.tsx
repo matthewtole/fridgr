@@ -120,7 +120,8 @@ export function Login({ onSuccess }: LoginProps) {
 
           <Button
             type="submit"
-            variant="primary"
+            variant="solid"
+            color="sky"
             disabled={loading}
             loading={loading}
             className={css({ width: '100%' })}

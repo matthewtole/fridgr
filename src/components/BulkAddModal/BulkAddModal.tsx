@@ -220,11 +220,12 @@ export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
                 justifyContent: 'flex-end',
               })}
             >
-              <Button variant="secondary" onClick={handleClose}>
+              <Button variant="solid" color="mauve" onClick={handleClose}>
                 Cancel
               </Button>
               <Button
-                variant="primary"
+                variant="solid"
+                color="sky"
                 onClick={handleParse}
                 disabled={!textInput.trim() || parseMutation.isPending}
                 loading={parseMutation.isPending}
@@ -293,11 +294,12 @@ export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
                     justifyContent: 'flex-end',
                   })}
                 >
-                  <Button variant="secondary" onClick={handleReset}>
+                  <Button variant="solid" color="mauve" onClick={handleReset}>
                     Start Over
                   </Button>
-                  <Button
-                    variant="primary"
+<Button
+                  variant="solid"
+                  color="sky"
                     onClick={handleCreateItems}
                     disabled={
                       approvedItems.length === 0 ||
@@ -353,7 +355,7 @@ export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
                 Created {approvedItems.length} item
                 {approvedItems.length !== 1 ? 's' : ''} successfully.
               </p>
-              <Button variant="primary" onClick={handleClose}>
+              <Button variant="solid" color="sky" onClick={handleClose}>
                 Done
               </Button>
             </div>

@@ -27,6 +27,7 @@ export function ErrorDisplay({ message, onDismiss }: ErrorDisplayProps) {
       {onDismiss && (
         <Button
           variant="ghost"
+          color="rose"
           onClick={onDismiss}
           className={css({
             marginLeft: '1rem',

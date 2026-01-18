@@ -98,12 +98,19 @@ function InventoryPage() {
             onChange={setSelectedLocationId}
           />
           <Button
-            variant="secondary"
+            variant="solid"
+            color="mauve"
             onClick={() => setIsBulkAddModalOpen(true)}
           >
             Bulk Add
           </Button>
-          <Button onClick={() => setIsAddModalOpen(true)}>Add Item</Button>
+          <Button
+            color="frost"
+            variant="solid"
+            onClick={() => setIsAddModalOpen(true)}
+          >
+            Add Item
+          </Button>
         </div>
       </div>
 

@@ -64,7 +64,7 @@ export function BarcodeScanner({
             zIndex: 10,
           })}
         >
-          <Button variant="ghost" onClick={onClose} aria-label="Close">
+          <Button variant="ghost" color="rose" onClick={onClose} aria-label="Close">
             ×
           </Button>
         </div>
@@ -81,11 +81,11 @@ export function BarcodeScanner({
         >
           Camera simulated
         </div>
-        <Button variant="primary" onClick={() => onScan('012345678901')}>
+        <Button variant="solid" color="sky" onClick={() => onScan('012345678901')}>
           Simulate scan
         </Button>
         {onManualEntry && (
-          <Button variant="secondary" onClick={onManualEntry}>
+          <Button variant="solid" color="mauve" onClick={onManualEntry}>
             Enter barcode manually
           </Button>
         )}
@@ -111,7 +111,7 @@ export function BarcodeScanner({
           zIndex: 10,
         })}
       >
-        <Button variant="ghost" onClick={onClose} aria-label="Close">
+        <Button variant="ghost" color="rose" onClick={onClose} aria-label="Close">
           ×
         </Button>
       </div>
@@ -151,14 +151,15 @@ export function BarcodeScanner({
             })}
           >
             <Button
-              variant="secondary"
+              variant="solid"
+              color="mauve"
               size="small"
               onClick={() => void retry()}
             >
               Retry
             </Button>
             {onManualEntry && (
-              <Button variant="secondary" size="small" onClick={onManualEntry}>
+              <Button variant="solid" color="mauve" size="small" onClick={onManualEntry}>
                 Enter manually
               </Button>
             )}
@@ -176,7 +177,7 @@ export function BarcodeScanner({
             Point your camera at a barcode
           </p>
           {onManualEntry && (
-            <Button variant="secondary" onClick={onManualEntry}>
+            <Button variant="solid" color="mauve" onClick={onManualEntry}>
               Enter barcode manually
             </Button>
           )}

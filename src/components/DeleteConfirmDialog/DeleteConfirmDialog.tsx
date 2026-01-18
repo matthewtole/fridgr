@@ -81,7 +81,8 @@ export function DeleteConfirmDialog({
         >
           <Button
             type="button"
-            variant="secondary"
+            variant="solid"
+            color="mauve"
             onClick={onClose}
             disabled={deleteMutation.isPending}
           >
@@ -89,7 +90,8 @@ export function DeleteConfirmDialog({
           </Button>
           <Button
             type="button"
-            variant="danger"
+            variant="solid"
+            color="rose"
             onClick={handleDelete}
             disabled={deleteMutation.isPending}
             loading={deleteMutation.isPending}

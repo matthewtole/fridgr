@@ -167,14 +167,16 @@ export function InventoryTable({
         >
           <Button
             size="small"
-            variant="primary"
+            variant="solid"
+            color="sky"
             onClick={() => onEdit(info.row.original.id)}
           >
             Edit
           </Button>
           <Button
             size="small"
-            variant="danger"
+            variant="solid"
+            color="rose"
             onClick={() => onDelete(info.row.original.id)}
           >
             Delete

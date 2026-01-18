@@ -1,6 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button } from './Button'
 
+const colorOptions = [
+  'lemon',
+  'peach',
+  'rose',
+  'orchid',
+  'mauve',
+  'sky',
+  'frost',
+  'aqua',
+  'aquamarine',
+  'mint',
+] as const
+
 const meta = {
   title: 'Components/Button',
   component: Button,
@@ -11,7 +24,11 @@ const meta = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['primary', 'secondary', 'danger', 'ghost'],
+      options: ['solid', 'outline', 'light', 'ghost'],
+    },
+    color: {
+      control: 'select',
+      options: [...colorOptions],
     },
     size: {
       control: 'select',
@@ -29,23 +46,50 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Primary: Story = {
+export const SolidSky: Story = {
   args: {
-    variant: 'primary',
+    variant: 'solid',
+    color: 'sky',
     children: 'Button',
   },
 }
 
-export const Secondary: Story = {
+export const SolidMauve: Story = {
   args: {
-    variant: 'secondary',
+    variant: 'solid',
+    color: 'mauve',
     children: 'Button',
   },
 }
 
-export const Danger: Story = {
+export const SolidRose: Story = {
   args: {
-    variant: 'danger',
+    variant: 'solid',
+    color: 'rose',
+    children: 'Button',
+  },
+}
+
+export const SolidMint: Story = {
+  args: {
+    variant: 'solid',
+    color: 'mint',
+    children: 'Button',
+  },
+}
+
+export const Outline: Story = {
+  args: {
+    variant: 'outline',
+    color: 'sky',
+    children: 'Button',
+  },
+}
+
+export const Light: Story = {
+  args: {
+    variant: 'light',
+    color: 'sky',
     children: 'Button',
   },
 }
@@ -53,13 +97,15 @@ export const Danger: Story = {
 export const Ghost: Story = {
   args: {
     variant: 'ghost',
+    color: 'rose',
     children: '×',
   },
 }
 
 export const Small: Story = {
   args: {
-    variant: 'primary',
+    variant: 'solid',
+    color: 'sky',
     size: 'small',
     children: 'Small Button',
   },
@@ -67,7 +113,8 @@ export const Small: Story = {
 
 export const Medium: Story = {
   args: {
-    variant: 'primary',
+    variant: 'solid',
+    color: 'sky',
     size: 'medium',
     children: 'Medium Button',
   },
@@ -75,7 +122,8 @@ export const Medium: Story = {
 
 export const Large: Story = {
   args: {
-    variant: 'primary',
+    variant: 'solid',
+    color: 'sky',
     size: 'large',
     children: 'Large Button',
   },
@@ -83,7 +131,8 @@ export const Large: Story = {
 
 export const Loading: Story = {
   args: {
-    variant: 'primary',
+    variant: 'solid',
+    color: 'sky',
     loading: true,
     children: 'Loading...',
   },
@@ -91,7 +140,8 @@ export const Loading: Story = {
 
 export const Disabled: Story = {
   args: {
-    variant: 'primary',
+    variant: 'solid',
+    color: 'sky',
     disabled: true,
     children: 'Disabled',
   },
