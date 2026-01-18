@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { IconScan, IconPlus } from '@tabler/icons-react';
 import { AddItemForm, type AddItemPrefill } from './AddItemForm';
 import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
-import { lookupProductByBarcode } from '../../lib/queries/products';
+import { useLookupProductByBarcode } from '../../hooks/useProducts';
 import { Tile } from '../Tile/Tile';
 import { css } from '../../../styled-system/css';
 
@@ -16,13 +16,12 @@ type ModalMode = 'choice' | 'scan' | 'form';
 export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
   const [mode, setMode] = useState<ModalMode>('choice');
   const [prefill, setPrefill] = useState<AddItemPrefill | undefined>(undefined);
-  const [lookupLoading, setLookupLoading] = useState(false);
+  const lookupMutation = useLookupProductByBarcode();
 
   useEffect(() => {
     if (!isOpen) {
       setMode('choice');
       setPrefill(undefined);
-      setLookupLoading(false);
     }
   }, [isOpen]);
 
@@ -33,9 +32,8 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
   };
 
   const handleBarcodeScanned = async (barcode: string) => {
-    setLookupLoading(true);
     try {
-      const product = await lookupProductByBarcode(barcode);
+      const product = await lookupMutation.mutateAsync(barcode);
       if (product) {
         setPrefill({ product_id: product.id, productName: product.name });
       } else {
@@ -45,8 +43,6 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
     } catch {
       setPrefill({ productName: '', barcode });
       setMode('form');
-    } finally {
-      setLookupLoading(false);
     }
   };
 
@@ -116,7 +112,7 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
           >
             Scan barcode
           </h2>
-          {lookupLoading && (
+          {lookupMutation.isPending && (
             <p
               className={css({
                 marginBottom: '1rem',
@@ -127,7 +123,7 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
               Looking up product…
             </p>
           )}
-          {!lookupLoading && (
+          {!lookupMutation.isPending && (
             <BarcodeScanner
               onScan={handleBarcodeScanned}
               onClose={handleCloseScan}

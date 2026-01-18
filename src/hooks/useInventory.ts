@@ -1,13 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  fetchInventoryItems,
-  fetchInventoryItem,
+  inventoryQueryOptions,
+  inventoryItemQueryOptions,
+  inventoryKeys,
   createInventoryItem,
   updateInventoryItem,
   deleteInventoryItem,
   parseInventoryText,
   createInventoryItemsBatch,
-  type InventoryItemWithRelations,
 } from '../lib/queries/inventory';
 import type { Database } from '../types/database';
 
@@ -17,16 +17,12 @@ type InventoryItemUpdate =
   Database['public']['Tables']['inventory_items']['Update'];
 
 export function useInventoryItems(locationId?: number) {
-  return useQuery<InventoryItemWithRelations[]>({
-    queryKey: ['inventory-items', locationId],
-    queryFn: () => fetchInventoryItems(locationId),
-  });
+  return useQuery(inventoryQueryOptions(locationId));
 }
 
 export function useInventoryItem(id: number) {
-  return useQuery<InventoryItemWithRelations | null>({
-    queryKey: ['inventory-item', id],
-    queryFn: () => fetchInventoryItem(id),
+  return useQuery({
+    ...inventoryItemQueryOptions(id),
     enabled: !!id,
   });
 }
@@ -39,7 +35,6 @@ export function useCreateInventoryItem() {
       data: InventoryItemInsert & { productName?: string; barcode?: string }
     ) => createInventoryItem(data),
     onSuccess: () => {
-      // Invalidate and refetch inventory items
       queryClient.invalidateQueries({ queryKey: ['inventory-items'] });
     },
   });
@@ -52,10 +47,9 @@ export function useUpdateInventoryItem() {
     mutationFn: ({ id, data }: { id: number; data: InventoryItemUpdate }) =>
       updateInventoryItem(id, data),
     onSuccess: (_, variables) => {
-      // Invalidate both the list and the specific item
       queryClient.invalidateQueries({ queryKey: ['inventory-items'] });
       queryClient.invalidateQueries({
-        queryKey: ['inventory-item', variables.id],
+        queryKey: inventoryKeys.detail(variables.id),
       });
     },
   });
@@ -67,7 +61,6 @@ export function useDeleteInventoryItem() {
   return useMutation({
     mutationFn: (id: number) => deleteInventoryItem(id),
     onSuccess: () => {
-      // Invalidate and refetch inventory items
       queryClient.invalidateQueries({ queryKey: ['inventory-items'] });
     },
   });

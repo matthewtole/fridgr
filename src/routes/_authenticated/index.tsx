@@ -12,8 +12,12 @@ import {
   IconPlus,
 } from '@tabler/icons-react';
 import { TileLink } from '../../components/Tile/TileLink';
+import { locationsQueryOptions } from '../../lib/queries/locations';
 
 export const Route = createFileRoute('/_authenticated/')({
+  loader: async ({ context }) => {
+    context.queryClient.prefetchQuery(locationsQueryOptions());
+  },
   component: HomePage,
 });
 

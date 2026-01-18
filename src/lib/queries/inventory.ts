@@ -1,7 +1,27 @@
+import { queryOptions } from '@tanstack/react-query';
 import { supabase } from '../supabase';
 import type { Database } from '../../types/database';
 
 type InventoryItem = Database['public']['Tables']['inventory_items']['Row'];
+
+export const inventoryKeys = {
+  list: (locationId?: number) => ['inventory-items', locationId] as const,
+  detail: (id: number) => ['inventory-item', id] as const,
+};
+
+export function inventoryQueryOptions(locationId?: number) {
+  return queryOptions({
+    queryKey: inventoryKeys.list(locationId),
+    queryFn: () => fetchInventoryItems(locationId),
+  });
+}
+
+export function inventoryItemQueryOptions(id: number) {
+  return queryOptions({
+    queryKey: inventoryKeys.detail(id),
+    queryFn: () => fetchInventoryItem(id),
+  });
+}
 type InventoryItemInsert =
   Database['public']['Tables']['inventory_items']['Insert'];
 type InventoryItemUpdate =

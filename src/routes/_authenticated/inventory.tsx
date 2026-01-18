@@ -8,9 +8,17 @@ import { EditItemModal } from '../../components/EditItemForm/EditItemModal';
 import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog/DeleteConfirmDialog';
 import { LocationFilter } from '../../components/LocationFilter/LocationFilter';
 import { Button } from '../../components/Button/Button';
+import { inventoryQueryOptions } from '../../lib/queries/inventory';
+import { locationsQueryOptions } from '../../lib/queries/locations';
 import { css } from '../../../styled-system/css';
 
 export const Route = createFileRoute('/_authenticated/inventory')({
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(locationsQueryOptions()),
+      context.queryClient.prefetchQuery(inventoryQueryOptions(undefined)),
+    ]);
+  },
   component: InventoryPage,
 });
 
