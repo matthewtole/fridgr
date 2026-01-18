@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useInventoryItems } from '../../hooks/useInventory'
 import { InventoryTable } from '../../components/InventoryTable/InventoryTable'
 import { AddItemModal } from '../../components/AddItemForm/AddItemModal'
+import { BulkAddModal } from '../../components/BulkAddModal/BulkAddModal'
 import { EditItemModal } from '../../components/EditItemForm/EditItemModal'
 import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog/DeleteConfirmDialog'
 import { LocationFilter } from '../../components/LocationFilter/LocationFilter'
@@ -28,6 +29,7 @@ function InventoryPage() {
     name: string
   } | null>(null)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [isBulkAddModalOpen, setIsBulkAddModalOpen] = useState(false)
 
   const handleEdit = (id: number) => {
     setEditingId(id)
@@ -95,6 +97,12 @@ function InventoryPage() {
             value={selectedLocationId}
             onChange={setSelectedLocationId}
           />
+          <Button
+            variant="secondary"
+            onClick={() => setIsBulkAddModalOpen(true)}
+          >
+            Bulk Add
+          </Button>
           <Button onClick={() => setIsAddModalOpen(true)}>Add Item</Button>
         </div>
       </div>
@@ -109,6 +117,11 @@ function InventoryPage() {
       <AddItemModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
+      />
+
+      <BulkAddModal
+        isOpen={isBulkAddModalOpen}
+        onClose={() => setIsBulkAddModalOpen(false)}
       />
 
       <EditItemModal

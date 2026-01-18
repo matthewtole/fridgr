@@ -18,6 +18,15 @@ export interface InventoryItemWithRelations extends InventoryItem {
   } | null
 }
 
+export interface ParsedInventoryItem {
+  productName: string
+  quantity: number
+  quantityType: 'units' | 'volume' | 'percentage' | 'weight'
+  locationName: string
+  expirationDate?: string
+  openedStatus: boolean
+}
+
 export async function fetchInventoryItems(
   locationId?: number
 ): Promise<InventoryItemWithRelations[]> {
@@ -137,4 +146,91 @@ export async function deleteInventoryItem(id: number): Promise<void> {
   if (error) {
     throw new Error(`Failed to delete inventory item: ${error.message}`)
   }
+}
+
+export async function parseInventoryText(
+  text: string
+): Promise<ParsedInventoryItem[]> {
+  const { data, error } = await supabase.functions.invoke('parse-inventory-text', {
+    body: { text },
+  })
+
+  if (error) {
+    throw new Error(`Failed to parse inventory text: ${error.message}`)
+  }
+
+  if (!data || !Array.isArray(data)) {
+    throw new Error('Invalid response from parse-inventory-text function')
+  }
+
+  return data as ParsedInventoryItem[]
+}
+
+export async function createInventoryItemsBatch(
+  items: Array<InventoryItemInsert & { productName?: string }>
+): Promise<InventoryItem[]> {
+  // First, create all products and collect their IDs
+  const productMap = new Map<string, number>()
+  const itemsWithProductIds: Array<InventoryItemInsert & { productName?: string }> = []
+
+  // Process items to create products first
+  for (const item of items) {
+    const { productName, ...rest } = item
+    let productId = item.product_id
+
+    // If product name is provided but no product_id, create or reuse product
+    if (productName && !productId) {
+      // Check if we've already created this product in this batch
+      if (productMap.has(productName)) {
+        productId = productMap.get(productName)!
+      } else {
+        // Check if product already exists in database
+        const { data: existingProduct } = await supabase
+          .from('products')
+          .select('id')
+          .eq('name', productName)
+          .single()
+
+        if (existingProduct) {
+          productId = existingProduct.id
+          productMap.set(productName, productId)
+        } else {
+          // Create new product
+          const { data: newProduct, error: productError } = await supabase
+            .from('products')
+            .insert({
+              name: productName,
+            })
+            .select()
+            .single()
+
+          if (productError) {
+            throw new Error(
+              `Failed to create product "${productName}": ${productError.message}`
+            )
+          }
+
+          productId = newProduct.id
+          productMap.set(productName, productId)
+        }
+      }
+    }
+
+    itemsWithProductIds.push({
+      ...rest,
+      product_id: productId || null,
+    })
+  }
+
+  // Now create all inventory items
+  const { data: createdItems, error } = await supabase
+    .from('inventory_items')
+    .insert(itemsWithProductIds)
+    .select()
+
+  if (error) {
+    throw new Error(`Failed to create inventory items: ${error.message}`)
+  }
+
+  return createdItems || []
 }

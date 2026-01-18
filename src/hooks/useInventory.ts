@@ -5,7 +5,10 @@ import {
   createInventoryItem,
   updateInventoryItem,
   deleteInventoryItem,
+  parseInventoryText,
+  createInventoryItemsBatch,
   type InventoryItemWithRelations,
+  type ParsedInventoryItem,
 } from '../lib/queries/inventory'
 import type { Database } from '../types/database'
 
@@ -64,6 +67,24 @@ export function useDeleteInventoryItem() {
     mutationFn: (id: number) => deleteInventoryItem(id),
     onSuccess: () => {
       // Invalidate and refetch inventory items
+      queryClient.invalidateQueries({ queryKey: ['inventory-items'] })
+    },
+  })
+}
+
+export function useParseInventoryText() {
+  return useMutation({
+    mutationFn: (text: string) => parseInventoryText(text),
+  })
+}
+
+export function useCreateInventoryItemsBatch() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (
+      items: Array<InventoryItemInsert & { productName?: string }>
+    ) => createInventoryItemsBatch(items),
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['inventory-items'] })
     },
   })
