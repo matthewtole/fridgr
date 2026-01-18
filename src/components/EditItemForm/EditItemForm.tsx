@@ -5,6 +5,7 @@ import {
 } from '../../hooks/useInventory'
 import { useLocations } from '../../hooks/useLocations'
 import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay'
+import { Button } from '../Button/Button'
 import { css } from '../../../styled-system/css'
 import type { Database } from '../../types/database'
 
@@ -469,49 +470,17 @@ export function EditItemForm({
           justifyContent: 'flex-end',
         })}
       >
-        <button
-          type="button"
-          onClick={onCancel}
-          className={css({
-            padding: '0.75rem 1.5rem',
-            backgroundColor: 'gray.200',
-            color: 'gray.800',
-            borderRadius: '0.375rem',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            fontWeight: 'medium',
-            _hover: {
-              backgroundColor: 'gray.300',
-            },
-          })}
-        >
+        <Button type="button" variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
           type="submit"
+          variant="primary"
           disabled={updateMutation.isPending}
-          className={css({
-            padding: '0.75rem 1.5rem',
-            backgroundColor: 'blue.500',
-            color: 'white',
-            borderRadius: '0.375rem',
-            border: 'none',
-            cursor: updateMutation.isPending ? 'not-allowed' : 'pointer',
-            fontSize: '1rem',
-            fontWeight: 'medium',
-            opacity: updateMutation.isPending ? 0.6 : 1,
-            _hover: {
-              backgroundColor: 'blue.600',
-            },
-            _disabled: {
-              cursor: 'not-allowed',
-              opacity: 0.6,
-            },
-          })}
+          loading={updateMutation.isPending}
         >
           {updateMutation.isPending ? 'Updating...' : 'Update Item'}
-        </button>
+        </Button>
       </div>
     </form>
   )

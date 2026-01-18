@@ -6,6 +6,7 @@ import { AddItemModal } from '../../components/AddItemForm/AddItemModal'
 import { EditItemModal } from '../../components/EditItemForm/EditItemModal'
 import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog/DeleteConfirmDialog'
 import { LocationFilter } from '../../components/LocationFilter/LocationFilter'
+import { Button } from '../../components/Button/Button'
 import { css } from '../../../styled-system/css'
 
 export const Route = createFileRoute('/_authenticated/')({
@@ -94,24 +95,7 @@ function InventoryPage() {
             value={selectedLocationId}
             onChange={setSelectedLocationId}
           />
-          <button
-            className={css({
-              padding: '0.75rem 1.5rem',
-              backgroundColor: 'blue.500',
-              color: 'white',
-              borderRadius: '0.5rem',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '1rem',
-              fontWeight: 'medium',
-              _hover: {
-                backgroundColor: 'blue.600',
-              },
-            })}
-            onClick={() => setIsAddModalOpen(true)}
-          >
-            Add Item
-          </button>
+          <Button onClick={() => setIsAddModalOpen(true)}>Add Item</Button>
         </div>
       </div>
 

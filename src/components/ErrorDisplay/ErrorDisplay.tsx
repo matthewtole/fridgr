@@ -1,3 +1,4 @@
+import { Button } from '../Button/Button'
 import { css } from '../../../styled-system/css'
 
 interface ErrorDisplayProps {
@@ -24,25 +25,18 @@ export function ErrorDisplay({ message, onDismiss }: ErrorDisplayProps) {
     >
       <span>{message}</span>
       {onDismiss && (
-        <button
+        <Button
+          variant="ghost"
           onClick={onDismiss}
           className={css({
             marginLeft: '1rem',
-            padding: '0.25rem 0.5rem',
-            backgroundColor: 'transparent',
-            border: 'none',
-            color: 'red.800',
-            cursor: 'pointer',
             fontSize: '1.25rem',
             lineHeight: 1,
-            _hover: {
-              color: 'red.900',
-            },
           })}
           aria-label="Dismiss error"
         >
           ×
-        </button>
+        </Button>
       )}
     </div>
   )

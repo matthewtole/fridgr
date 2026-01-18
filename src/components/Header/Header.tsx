@@ -1,4 +1,5 @@
 import { useAuth } from '../../contexts/AuthContext'
+import { Button } from '../Button/Button'
 import { css } from '../../../styled-system/css'
 
 export function Header() {
@@ -39,23 +40,9 @@ export function Header() {
         >
           {user?.email}
         </span>
-        <button
-          onClick={() => signOut()}
-          className={css({
-            padding: '0.5rem 1rem',
-            backgroundColor: 'red.500',
-            color: 'white',
-            borderRadius: '0.375rem',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '0.875rem',
-            _hover: {
-              backgroundColor: 'red.600',
-            },
-          })}
-        >
+        <Button variant="danger" size="small" onClick={() => signOut()}>
           Sign Out
-        </button>
+        </Button>
       </div>
     </header>
   )

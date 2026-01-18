@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { ErrorDisplay } from '../../components/ErrorDisplay/ErrorDisplay'
+import { Button } from '../../components/Button/Button'
 import { css } from '../../../styled-system/css'
 
 interface LoginProps {
@@ -142,31 +143,15 @@ export function Login({ onSuccess }: LoginProps) {
             />
           </div>
 
-          <button
+          <Button
             type="submit"
+            variant="primary"
             disabled={loading}
-            className={css({
-              width: '100%',
-              padding: '0.75rem',
-              backgroundColor: 'blue.500',
-              color: 'white',
-              borderRadius: '0.375rem',
-              border: 'none',
-              fontSize: '1rem',
-              fontWeight: 'medium',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              opacity: loading ? 0.6 : 1,
-              _hover: {
-                backgroundColor: 'blue.600',
-              },
-              _disabled: {
-                cursor: 'not-allowed',
-                opacity: 0.6,
-              },
-            })}
+            loading={loading}
+            className={css({ width: '100%' })}
           >
             {loading ? 'Signing in...' : 'Sign In'}
-          </button>
+          </Button>
         </form>
       </div>
     </div>

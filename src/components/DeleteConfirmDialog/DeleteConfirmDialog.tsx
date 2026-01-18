@@ -1,4 +1,5 @@
 import { useDeleteInventoryItem } from '../../hooks/useInventory'
+import { Button } from '../Button/Button'
 import { css } from '../../../styled-system/css'
 
 interface DeleteConfirmDialogProps {
@@ -78,55 +79,23 @@ export function DeleteConfirmDialog({
             justifyContent: 'flex-end',
           })}
         >
-          <button
+          <Button
             type="button"
+            variant="secondary"
             onClick={onClose}
             disabled={deleteMutation.isPending}
-            className={css({
-              padding: '0.75rem 1.5rem',
-              backgroundColor: 'gray.200',
-              color: 'gray.800',
-              borderRadius: '0.375rem',
-              border: 'none',
-              cursor: deleteMutation.isPending ? 'not-allowed' : 'pointer',
-              fontSize: '1rem',
-              fontWeight: 'medium',
-              _hover: {
-                backgroundColor: 'gray.300',
-              },
-              _disabled: {
-                cursor: 'not-allowed',
-                opacity: 0.6,
-              },
-            })}
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
+            variant="danger"
             onClick={handleDelete}
             disabled={deleteMutation.isPending}
-            className={css({
-              padding: '0.75rem 1.5rem',
-              backgroundColor: 'red.500',
-              color: 'white',
-              borderRadius: '0.375rem',
-              border: 'none',
-              cursor: deleteMutation.isPending ? 'not-allowed' : 'pointer',
-              fontSize: '1rem',
-              fontWeight: 'medium',
-              opacity: deleteMutation.isPending ? 0.6 : 1,
-              _hover: {
-                backgroundColor: 'red.600',
-              },
-              _disabled: {
-                cursor: 'not-allowed',
-                opacity: 0.6,
-              },
-            })}
+            loading={deleteMutation.isPending}
           >
             {deleteMutation.isPending ? 'Deleting...' : 'Delete'}
-          </button>
+          </Button>
         </div>
       </div>
     </div>

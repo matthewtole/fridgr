@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useCreateInventoryItem } from '../../hooks/useInventory'
 import { useLocations } from '../../hooks/useLocations'
 import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay'
+import { Button } from '../Button/Button'
 import { css } from '../../../styled-system/css'
 import type { Database } from '../../types/database'
 
@@ -445,49 +446,17 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
           justifyContent: 'flex-end',
         })}
       >
-        <button
-          type="button"
-          onClick={onCancel}
-          className={css({
-            padding: '0.75rem 1.5rem',
-            backgroundColor: 'gray.200',
-            color: 'gray.800',
-            borderRadius: '0.375rem',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '1rem',
-            fontWeight: 'medium',
-            _hover: {
-              backgroundColor: 'gray.300',
-            },
-          })}
-        >
+        <Button type="button" variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
-        <button
+        </Button>
+        <Button
           type="submit"
+          variant="primary"
           disabled={createMutation.isPending}
-          className={css({
-            padding: '0.75rem 1.5rem',
-            backgroundColor: 'blue.500',
-            color: 'white',
-            borderRadius: '0.375rem',
-            border: 'none',
-            cursor: createMutation.isPending ? 'not-allowed' : 'pointer',
-            fontSize: '1rem',
-            fontWeight: 'medium',
-            opacity: createMutation.isPending ? 0.6 : 1,
-            _hover: {
-              backgroundColor: 'blue.600',
-            },
-            _disabled: {
-              cursor: 'not-allowed',
-              opacity: 0.6,
-            },
-          })}
+          loading={createMutation.isPending}
         >
           {createMutation.isPending ? 'Adding...' : 'Add Item'}
-        </button>
+        </Button>
       </div>
     </form>
   )

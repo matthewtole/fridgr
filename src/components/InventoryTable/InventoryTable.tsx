@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import type { InventoryItemWithRelations } from '../../lib/queries/inventory'
+import { Button } from '../Button/Button'
 import { css } from '../../../styled-system/css'
 
 interface InventoryTableProps {
@@ -164,42 +165,20 @@ export function InventoryTable({
             gap: '0.5rem',
           })}
         >
-          <button
+          <Button
+            size="small"
+            variant="primary"
             onClick={() => onEdit(info.row.original.id)}
-            className={css({
-              padding: '0.375rem 0.75rem',
-              backgroundColor: 'blue.500',
-              color: 'white',
-              borderRadius: '0.375rem',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '0.875rem',
-              fontWeight: 'medium',
-              _hover: {
-                backgroundColor: 'blue.600',
-              },
-            })}
           >
             Edit
-          </button>
-          <button
+          </Button>
+          <Button
+            size="small"
+            variant="danger"
             onClick={() => onDelete(info.row.original.id)}
-            className={css({
-              padding: '0.375rem 0.75rem',
-              backgroundColor: 'red.500',
-              color: 'white',
-              borderRadius: '0.375rem',
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: '0.875rem',
-              fontWeight: 'medium',
-              _hover: {
-                backgroundColor: 'red.600',
-              },
-            })}
           >
             Delete
-          </button>
+          </Button>
         </div>
       ),
     }),
