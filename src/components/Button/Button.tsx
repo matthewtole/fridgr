@@ -1,6 +1,7 @@
 import { cva } from '../../../styled-system/css'
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const colors = [
   'lemon',
   'peach',
@@ -28,8 +29,8 @@ const lightExtras = {
 
 const buttonRecipe = cva({
   base: {
-    borderRadius: '0.375rem',
-    border: '1px solid transparent',
+    borderRadius: '8px',
+    border: '1.5px solid transparent',
     boxSizing: 'border-box',
     cursor: 'pointer',
     fontWeight: 'medium',
@@ -63,64 +64,324 @@ const buttonRecipe = cva({
     },
     size: {
       small: {
-        padding: '0.375rem 0.75rem',
-        fontSize: '0.875rem',
+        padding: '4px 8px',
+        fontSize: '12px',
       },
       medium: {
-        padding: '0.75rem 1.5rem',
-        fontSize: '1rem',
+        padding: '8px 16px',
+        fontSize: '14px',
       },
       large: {
-        padding: '1rem 2rem',
-        fontSize: '1.125rem',
+        padding: '16px 32px',
+        fontSize: '16px',
       },
     },
   },
   compoundVariants: [
     // solid – backgroundColor must be a literal for extraction
-    { variant: 'solid', color: 'lemon', css: { backgroundColor: 'lemon', ...solidExtras } },
-    { variant: 'solid', color: 'peach', css: { backgroundColor: 'peach', ...solidExtras } },
-    { variant: 'solid', color: 'rose', css: { backgroundColor: 'rose', ...solidExtras } },
-    { variant: 'solid', color: 'orchid', css: { backgroundColor: 'orchid', ...solidExtras } },
-    { variant: 'solid', color: 'mauve', css: { backgroundColor: 'mauve', ...solidExtras } },
-    { variant: 'solid', color: 'sky', css: { backgroundColor: 'sky', ...solidExtras } },
-    { variant: 'solid', color: 'frost', css: { backgroundColor: 'frost', ...solidExtras } },
-    { variant: 'solid', color: 'aqua', css: { backgroundColor: 'aqua', ...solidExtras } },
-    { variant: 'solid', color: 'aquamarine', css: { backgroundColor: 'aquamarine', ...solidExtras } },
-    { variant: 'solid', color: 'mint', css: { backgroundColor: 'mint', ...solidExtras } },
+    {
+      variant: 'solid',
+      color: 'lemon',
+      css: { backgroundColor: 'lemon', ...solidExtras },
+    },
+    {
+      variant: 'solid',
+      color: 'peach',
+      css: { backgroundColor: 'peach', ...solidExtras },
+    },
+    {
+      variant: 'solid',
+      color: 'rose',
+      css: { backgroundColor: 'rose', ...solidExtras },
+    },
+    {
+      variant: 'solid',
+      color: 'orchid',
+      css: { backgroundColor: 'orchid', ...solidExtras },
+    },
+    {
+      variant: 'solid',
+      color: 'mauve',
+      css: { backgroundColor: 'mauve', ...solidExtras },
+    },
+    {
+      variant: 'solid',
+      color: 'sky',
+      css: { backgroundColor: 'sky', ...solidExtras },
+    },
+    {
+      variant: 'solid',
+      color: 'frost',
+      css: { backgroundColor: 'frost', ...solidExtras },
+    },
+    {
+      variant: 'solid',
+      color: 'aqua',
+      css: { backgroundColor: 'aqua', ...solidExtras },
+    },
+    {
+      variant: 'solid',
+      color: 'aquamarine',
+      css: { backgroundColor: 'aquamarine', ...solidExtras },
+    },
+    {
+      variant: 'solid',
+      color: 'mint',
+      css: { backgroundColor: 'mint', ...solidExtras },
+    },
     // outline – borderColor literal for extraction
-    { variant: 'outline', color: 'lemon', css: { border: '1px solid', borderColor: 'lemon', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
-    { variant: 'outline', color: 'peach', css: { border: '1px solid', borderColor: 'peach', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
-    { variant: 'outline', color: 'rose', css: { border: '1px solid', borderColor: 'rose', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
-    { variant: 'outline', color: 'orchid', css: { border: '1px solid', borderColor: 'orchid', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
-    { variant: 'outline', color: 'mauve', css: { border: '1px solid', borderColor: 'mauve', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
-    { variant: 'outline', color: 'sky', css: { border: '1px solid', borderColor: 'sky', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
-    { variant: 'outline', color: 'frost', css: { border: '1px solid', borderColor: 'frost', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
-    { variant: 'outline', color: 'aqua', css: { border: '1px solid', borderColor: 'aqua', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
-    { variant: 'outline', color: 'aquamarine', css: { border: '1px solid', borderColor: 'aquamarine', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
-    { variant: 'outline', color: 'mint', css: { border: '1px solid', borderColor: 'mint', backgroundColor: 'transparent', color: 'gray.800', _hover: { backgroundColor: 'gray.50' } } },
+    {
+      variant: 'outline',
+      color: 'lemon',
+      css: {
+        // border: '1px solid',
+        borderColor: 'lemon',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
+    {
+      variant: 'outline',
+      color: 'peach',
+      css: {
+        // border: '1px solid',
+        borderColor: 'peach',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
+    {
+      variant: 'outline',
+      color: 'rose',
+      css: {
+        // border: '1px solid',
+        borderColor: 'rose',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
+    {
+      variant: 'outline',
+      color: 'orchid',
+      css: {
+        // border: '1px solid',
+        borderColor: 'orchid',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
+    {
+      variant: 'outline',
+      color: 'mauve',
+      css: {
+        // border: '1px solid',
+        borderColor: 'mauve',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
+    {
+      variant: 'outline',
+      color: 'sky',
+      css: {
+        // border: '1px solid',
+        borderColor: 'sky',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
+    {
+      variant: 'outline',
+      color: 'frost',
+      css: {
+        // border: '1px solid',
+        borderColor: 'frost',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
+    {
+      variant: 'outline',
+      color: 'aqua',
+      css: {
+        // border: '1px solid',
+        borderColor: 'aqua',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
+    {
+      variant: 'outline',
+      color: 'aquamarine',
+      css: {
+        // border: '1px solid',
+        borderColor: 'aquamarine',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
+    {
+      variant: 'outline',
+      color: 'mint',
+      css: {
+        // border: '1px solid',
+        borderColor: 'mint',
+        backgroundColor: 'transparent',
+        color: 'gray.800',
+        _hover: { backgroundColor: 'gray.50' },
+      },
+    },
     // light
-    { variant: 'light', color: 'lemon', css: { backgroundColor: 'lemon', ...lightExtras } },
-    { variant: 'light', color: 'peach', css: { backgroundColor: 'peach', ...lightExtras } },
-    { variant: 'light', color: 'rose', css: { backgroundColor: 'rose', ...lightExtras } },
-    { variant: 'light', color: 'orchid', css: { backgroundColor: 'orchid', ...lightExtras } },
-    { variant: 'light', color: 'mauve', css: { backgroundColor: 'mauve', ...lightExtras } },
-    { variant: 'light', color: 'sky', css: { backgroundColor: 'sky', ...lightExtras } },
-    { variant: 'light', color: 'frost', css: { backgroundColor: 'frost', ...lightExtras } },
-    { variant: 'light', color: 'aqua', css: { backgroundColor: 'aqua', ...lightExtras } },
-    { variant: 'light', color: 'aquamarine', css: { backgroundColor: 'aquamarine', ...lightExtras } },
-    { variant: 'light', color: 'mint', css: { backgroundColor: 'mint', ...lightExtras } },
+    {
+      variant: 'light',
+      color: 'lemon',
+      css: { backgroundColor: 'lemon', ...lightExtras },
+    },
+    {
+      variant: 'light',
+      color: 'peach',
+      css: { backgroundColor: 'peach', ...lightExtras },
+    },
+    {
+      variant: 'light',
+      color: 'rose',
+      css: { backgroundColor: 'rose', ...lightExtras },
+    },
+    {
+      variant: 'light',
+      color: 'orchid',
+      css: { backgroundColor: 'orchid', ...lightExtras },
+    },
+    {
+      variant: 'light',
+      color: 'mauve',
+      css: { backgroundColor: 'mauve', ...lightExtras },
+    },
+    {
+      variant: 'light',
+      color: 'sky',
+      css: { backgroundColor: 'sky', ...lightExtras },
+    },
+    {
+      variant: 'light',
+      color: 'frost',
+      css: { backgroundColor: 'frost', ...lightExtras },
+    },
+    {
+      variant: 'light',
+      color: 'aqua',
+      css: { backgroundColor: 'aqua', ...lightExtras },
+    },
+    {
+      variant: 'light',
+      color: 'aquamarine',
+      css: { backgroundColor: 'aquamarine', ...lightExtras },
+    },
+    {
+      variant: 'light',
+      color: 'mint',
+      css: { backgroundColor: 'mint', ...lightExtras },
+    },
     // ghost – color literal for extraction
-    { variant: 'ghost', color: 'lemon', css: { backgroundColor: 'transparent', color: 'lemon', _hover: { backgroundColor: 'gray.100' } } },
-    { variant: 'ghost', color: 'peach', css: { backgroundColor: 'transparent', color: 'peach', _hover: { backgroundColor: 'gray.100' } } },
-    { variant: 'ghost', color: 'rose', css: { backgroundColor: 'transparent', color: 'rose', _hover: { backgroundColor: 'gray.100' } } },
-    { variant: 'ghost', color: 'orchid', css: { backgroundColor: 'transparent', color: 'orchid', _hover: { backgroundColor: 'gray.100' } } },
-    { variant: 'ghost', color: 'mauve', css: { backgroundColor: 'transparent', color: 'mauve', _hover: { backgroundColor: 'gray.100' } } },
-    { variant: 'ghost', color: 'sky', css: { backgroundColor: 'transparent', color: 'sky', _hover: { backgroundColor: 'gray.100' } } },
-    { variant: 'ghost', color: 'frost', css: { backgroundColor: 'transparent', color: 'frost', _hover: { backgroundColor: 'gray.100' } } },
-    { variant: 'ghost', color: 'aqua', css: { backgroundColor: 'transparent', color: 'aqua', _hover: { backgroundColor: 'gray.100' } } },
-    { variant: 'ghost', color: 'aquamarine', css: { backgroundColor: 'transparent', color: 'aquamarine', _hover: { backgroundColor: 'gray.100' } } },
-    { variant: 'ghost', color: 'mint', css: { backgroundColor: 'transparent', color: 'mint', _hover: { backgroundColor: 'gray.100' } } },
+    {
+      variant: 'ghost',
+      color: 'lemon',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'lemon',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
+    {
+      variant: 'ghost',
+      color: 'peach',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'peach',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
+    {
+      variant: 'ghost',
+      color: 'rose',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'rose',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
+    {
+      variant: 'ghost',
+      color: 'orchid',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'orchid',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
+    {
+      variant: 'ghost',
+      color: 'mauve',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'mauve',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
+    {
+      variant: 'ghost',
+      color: 'sky',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'sky',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
+    {
+      variant: 'ghost',
+      color: 'frost',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'frost',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
+    {
+      variant: 'ghost',
+      color: 'aqua',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'aqua',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
+    {
+      variant: 'ghost',
+      color: 'aquamarine',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'aquamarine',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
+    {
+      variant: 'ghost',
+      color: 'mint',
+      css: {
+        backgroundColor: 'transparent',
+        color: 'mint',
+        _hover: { backgroundColor: 'gray.100' },
+      },
+    },
   ],
   defaultVariants: {
     variant: 'solid',
@@ -146,7 +407,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({
-  variant = 'solid',
+  variant = 'outline',
   color = 'sky',
   size = 'medium',
   loading = false,
