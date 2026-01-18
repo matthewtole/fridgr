@@ -1,5 +1,6 @@
 import { createRootRoute, Outlet, useRouter } from '@tanstack/react-router'
 import { AuthProvider } from '../providers/AuthProvider'
+import { QueryProvider } from '../providers/QueryProvider'
 import { useAuth } from '../contexts/AuthContext'
 import { useEffect } from 'react'
 
@@ -26,8 +27,10 @@ function RootComponent() {
 
 export const Route = createRootRoute({
   component: () => (
-    <AuthProvider>
-      <RootComponent />
-    </AuthProvider>
+    <QueryProvider>
+      <AuthProvider>
+        <RootComponent />
+      </AuthProvider>
+    </QueryProvider>
   ),
 })

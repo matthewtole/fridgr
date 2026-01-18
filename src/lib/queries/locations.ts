@@ -1,0 +1,17 @@
+import { supabase } from '../supabase'
+import type { Database } from '../../types/database'
+
+type Location = Database['public']['Tables']['locations']['Row']
+
+export async function fetchLocations(): Promise<Location[]> {
+  const { data, error } = await supabase
+    .from('locations')
+    .select('*')
+    .order('display_order', { ascending: true })
+
+  if (error) {
+    throw new Error(`Failed to fetch locations: ${error.message}`)
+  }
+
+  return data || []
+}
