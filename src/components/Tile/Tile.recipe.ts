@@ -1,5 +1,7 @@
 import { sva } from '../../../styled-system/css';
 
+// Uses the same color tokens as Button (lemon, peach, rose, orchid, mauve, sky,
+// frost, aqua, aquamarine, mint). Semantic variants map to the palette.
 export const tileRecipe = sva({
   slots: ['root', 'icon', 'label'],
   base: {
@@ -17,43 +19,18 @@ export const tileRecipe = sva({
       cursor: 'pointer',
       fontWeight: 'bold',
       transition: 'background-color 0.2s',
-      _hover: {
-        opacity: 0.9,
-      },
+      color: 'gray.800',
+      textDecoration: 'none',
+      _hover: { filter: 'brightness(0.97)' },
     },
   },
   variants: {
     variant: {
-      scan: {
-        root: {
-          backgroundColor: 'blue.500',
-          color: 'white',
-        },
-      },
-      search: {
-        root: {
-          backgroundColor: 'orange.200',
-          color: 'gray.800',
-        },
-      },
-      voice: {
-        root: {
-          backgroundColor: 'red.200',
-          color: 'gray.800',
-        },
-      },
-      browse: {
-        root: {
-          backgroundColor: 'gray.300',
-          color: 'gray.800',
-        },
-      },
-      addItem: {
-        root: {
-          backgroundColor: 'green.300',
-          color: 'gray.800',
-        },
-      },
+      scan: { root: { backgroundColor: 'sky' } },
+      search: { root: { backgroundColor: 'peach' } },
+      voice: { root: { backgroundColor: 'rose' } },
+      browse: { root: { backgroundColor: 'mauve' } },
+      addItem: { root: { backgroundColor: 'mint' } },
     },
   },
   defaultVariants: {

@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { IconScan, IconPlus } from '@tabler/icons-react';
 import { AddItemForm, type AddItemPrefill } from './AddItemForm';
 import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
 import { lookupProductByBarcode } from '../../lib/queries/products';
-import { Button } from '../Button/Button';
+import { Tile } from '../Tile/Tile';
 import { css } from '../../../styled-system/css';
 
 interface AddItemModalProps {
@@ -16,6 +17,14 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
   const [mode, setMode] = useState<ModalMode>('choice');
   const [prefill, setPrefill] = useState<AddItemPrefill | undefined>(undefined);
   const [lookupLoading, setLookupLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setMode('choice');
+      setPrefill(undefined);
+      setLookupLoading(false);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -70,24 +79,26 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
           </p>
           <div
             className={css({
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1rem',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '3',
             })}
           >
-            <Button variant="solid" color="sky" onClick={() => setMode('scan')}>
-              Scan barcode
-            </Button>
-            <Button
-              variant="solid"
-              color="mauve"
+            <Tile
+              variant="scan"
+              label="Scan barcode"
+              icon={<IconScan size={28} />}
+              onClick={() => setMode('scan')}
+            />
+            <Tile
+              variant="addItem"
+              label="Add manually"
+              icon={<IconPlus size={28} />}
               onClick={() => {
                 setPrefill(undefined);
                 setMode('form');
               }}
-            >
-              Add manually
-            </Button>
+            />
           </div>
         </>
       );

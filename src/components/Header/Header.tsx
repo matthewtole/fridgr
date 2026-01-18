@@ -1,9 +1,11 @@
+import { Link } from '@tanstack/react-router';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../Button/Button';
 import { css } from '../../../styled-system/css';
+import { IconLogout } from '@tabler/icons-react';
 
 export function Header() {
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
 
   return (
     <header
@@ -17,41 +19,42 @@ export function Header() {
         backgroundColor: 'white',
       })}
     >
-      <h1
-        className={css({
-          fontFamily: "'Miriam Libre', var(--font-fallback)",
-          fontSize: '1.2rem',
-          lineHeight: '1',
-          fontWeight: 'bold',
-          textTransform: 'uppercase',
-        })}
-      >
-        Fridgr
-      </h1>
       <div
         className={css({
           display: 'flex',
           alignItems: 'center',
-          gap: '1rem',
+          gap: '1.5rem',
         })}
       >
-        <span
+        <Link
+          to="/"
           className={css({
-            color: 'gray.600',
-            fontSize: '0.875rem',
+            fontFamily: "'Miriam Libre', var(--font-fallback)",
+            fontSize: '1.2rem',
+            lineHeight: '1',
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            color: 'inherit',
+            textDecoration: 'none',
           })}
         >
-          {user?.email}
-        </span>
-        <Button
-          variant="solid"
-          color="rose"
-          size="small"
-          onClick={() => signOut()}
+          Fridgr
+        </Link>
+        <Link
+          to="/inventory"
+          className={css({
+            fontSize: '0.875rem',
+            color: 'gray.600',
+            textDecoration: 'none',
+            _hover: { color: 'gray.900', textDecoration: 'underline' },
+          })}
         >
-          Sign Out
-        </Button>
+          Inventory
+        </Link>
       </div>
+      <Button variant="outline" size="small" onClick={() => signOut()}>
+        <IconLogout size={16} />
+      </Button>
     </header>
   );
 }

@@ -1,142 +1,80 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useState } from 'react';
-import { useInventoryItems } from '../../hooks/useInventory';
-import { InventoryTable } from '../../components/InventoryTable/InventoryTable';
-import { AddItemModal } from '../../components/AddItemForm/AddItemModal';
-import { BulkAddModal } from '../../components/BulkAddModal/BulkAddModal';
-import { EditItemModal } from '../../components/EditItemForm/EditItemModal';
-import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog/DeleteConfirmDialog';
-import { LocationFilter } from '../../components/LocationFilter/LocationFilter';
-import { Button } from '../../components/Button/Button';
 import { css } from '../../../styled-system/css';
+import { Tile } from '../../components/Tile/Tile';
+import { AddItemModal } from '../../components/AddItemForm/AddItemModal';
+import { VoiceInputModal } from '../../components/VoiceInputModal/VoiceInputModal';
+import {
+  IconApps,
+  IconMicrophone,
+  IconScan,
+  IconSearch,
+  IconPlus,
+} from '@tabler/icons-react';
+import { TileLink } from '../../components/Tile/TileLink';
 
 export const Route = createFileRoute('/_authenticated/')({
-  component: InventoryPage,
+  component: HomePage,
 });
 
-function InventoryPage() {
-  const [selectedLocationId, setSelectedLocationId] = useState<
-    number | undefined
-  >(undefined);
-  const {
-    data: items = [],
-    isLoading,
-    error,
-  } = useInventoryItems(selectedLocationId);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [deletingItem, setDeletingItem] = useState<{
-    id: number;
-    name: string;
-  } | null>(null);
+function HomePage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [isBulkAddModalOpen, setIsBulkAddModalOpen] = useState(false);
-
-  const handleEdit = (id: number) => {
-    setEditingId(id);
-  };
-
-  const handleDelete = (id: number) => {
-    const item = items.find((i) => i.id === id);
-    if (item) {
-      setDeletingItem({
-        id: item.id,
-        name: item.products?.name || 'Manual Entry',
-      });
-    }
-  };
-
-  if (error) {
-    return (
-      <div
-        className={css({
-          padding: '2rem',
-          textAlign: 'center',
-          color: 'red.600',
-        })}
-      >
-        Error loading inventory:{' '}
-        {error instanceof Error ? error.message : 'Unknown error'}
-      </div>
-    );
-  }
+  const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
 
   return (
     <div
       className={css({
-        padding: '2rem',
-        maxWidth: '1400px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '3',
+        width: 'clamp(320px, 100vw, 800px)',
         margin: '0 auto',
       })}
     >
       <div
         className={css({
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '1.5rem',
-          flexWrap: 'wrap',
-          gap: '1rem',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '3',
+          padding: '4',
         })}
       >
-        <h1
-          className={css({
-            fontSize: '2rem',
-            fontWeight: 'bold',
-          })}
-        >
-          Inventory
-        </h1>
-        <div
-          className={css({
-            display: 'flex',
-            gap: '1rem',
-            alignItems: 'center',
-          })}
-        >
-          <LocationFilter
-            value={selectedLocationId}
-            onChange={setSelectedLocationId}
-          />
-          <Button color="mauve" onClick={() => setIsBulkAddModalOpen(true)}>
-            Bulk Add
-          </Button>
-          <Button color="frost" onClick={() => setIsAddModalOpen(true)}>
-            Add Item
-          </Button>
-        </div>
+        <Tile
+          variant="scan"
+          label="Scan Item"
+          icon={<IconScan size={28} />}
+          className={css({ gridColumn: '1 / -1' })}
+        />
+        <Tile variant="search" label="Search" icon={<IconSearch size={28} />} />
+        <Tile
+          variant="voice"
+          label="Voice"
+          icon={<IconMicrophone size={28} />}
+          onClick={() => setIsVoiceModalOpen(true)}
+        />
+        <TileLink
+          to="/inventory"
+          variant="browse"
+          label="Browse"
+          icon={<IconApps size={28} />}
+        />
+        <Tile
+          variant="addItem"
+          label="Add Item"
+          icon={<IconPlus size={28} />}
+          onClick={() => setIsAddModalOpen(true)}
+        />
       </div>
-
-      <InventoryTable
-        data={items}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        isLoading={isLoading}
-      />
 
       <AddItemModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
       />
 
-      <BulkAddModal
-        isOpen={isBulkAddModalOpen}
-        onClose={() => setIsBulkAddModalOpen(false)}
+      <VoiceInputModal
+        isOpen={isVoiceModalOpen}
+        onClose={() => setIsVoiceModalOpen(false)}
       />
-
-      <EditItemModal
-        isOpen={editingId !== null}
-        itemId={editingId}
-        onClose={() => setEditingId(null)}
-      />
-
-      {deletingItem && (
-        <DeleteConfirmDialog
-          isOpen={true}
-          itemName={deletingItem.name}
-          itemId={deletingItem.id}
-          onClose={() => setDeletingItem(null)}
-        />
-      )}
     </div>
   );
 }
