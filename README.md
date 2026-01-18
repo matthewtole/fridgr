@@ -17,8 +17,8 @@ and plan meals based on available ingredients.
 ### Backend & Infrastructure
 
 - **Database & Auth:** Supabase (PostgreSQL, Row Level Security, built-in auth)
-- **Hosting:** Vercel
-- **Serverless Functions:** Vercel Edge Functions
+- **Hosting:** Vercel (frontend)
+- **Serverless Functions:** Supabase Edge Functions
 
 ## Getting Started
 
@@ -46,13 +46,35 @@ and plan meals based on available ingredients.
    ```
 
 4. Set up environment variables:
-   - Copy `.env.local.example` to `.env.local` (if it exists)
-   - Or create `.env.local` with your Supabase credentials:
+   - Create `.env` with your credentials:
      ```env
+     # Supabase Configuration
      VITE_SUPABASE_URL=http://127.0.0.1:54321
      VITE_SUPABASE_ANON_KEY=your-anon-key-here
+
+     # Anthropic API Configuration (for Supabase Functions)
+     ANTHROPIC_API_KEY=your-anthropic-api-key-here
+
+     # Rate Limiting (optional, defaults to 10 requests per minute)
+     RATE_LIMIT_MAX_REQUESTS=10
      ```
-   - Get your anon key by running `supabase status` after starting Supabase
+   - **Important:** For Supabase Functions to access environment variables in
+     **local development**, create a `.env` file in `supabase/functions/`:
+     ```bash
+     # Use the helper script to automatically create it from your root .env
+     ./scripts/setup-secrets.sh
+     ```
+     Or manually create `supabase/functions/.env`:
+     ```env
+     ANTHROPIC_API_KEY=your-key-here
+     RATE_LIMIT_MAX_REQUESTS=10
+     ```
+     Supabase will automatically load these when running functions locally.
+     **Note:** For production, set secrets via Supabase Dashboard (Project Settings > Edge Functions).
+   - Get your Supabase anon key by running `supabase status` after starting
+     Supabase
+   - Get your Anthropic API key from
+     [Anthropic Console](https://console.anthropic.com/)
 
 5. Start local Supabase (requires Docker):
    ```bash
@@ -62,10 +84,19 @@ and plan meals based on available ingredients.
    This starts a local PostgreSQL database and Supabase services. Access
    Supabase Studio at http://localhost:54323
 
-   **Note:** After starting Supabase, copy the `anon key` from the output and
-   add it to your `.env.local` file.
+   **Note:** After starting Supabase:
+   - Copy the `anon key` from the output and add it to your `.env` file
+   - Set up function environment variables for **local development** (required
+     for Edge Functions to access environment variables):
+     ```bash
+     ./scripts/setup-secrets.sh
+     ```
+     This creates `supabase/functions/.env` from your root `.env` file.
+     **Note:** This file is gitignored and only used locally. Production secrets are set separately via Supabase Dashboard.
 
 ### Development
+
+#### Frontend Development
 
 Start the development server:
 
@@ -74,6 +105,65 @@ npm run dev
 ```
 
 The app will be available at `http://localhost:5173`
+
+#### API Development (Supabase Functions)
+
+Supabase Functions run automatically when you start Supabase locally:
+
+```bash
+npm run supabase:start
+```
+
+**Setting up Function Environment Variables (Local Development Only):**
+
+For local development, create `supabase/functions/.env` with your secrets:
+
+```bash
+# Use the helper script (recommended)
+./scripts/setup-secrets.sh
+```
+
+Or manually create `supabase/functions/.env`:
+```env
+ANTHROPIC_API_KEY=your-anthropic-api-key-here
+RATE_LIMIT_MAX_REQUESTS=10
+```
+
+**Note:** 
+- These environment variables are **LOCAL ONLY** and don't affect production
+- The `.env` file persists until you delete it
+- Supabase automatically loads this file when running functions locally
+- To view function logs: `supabase functions logs estimate-expiration`
+- **For production:** Set secrets via Supabase Dashboard (Project Settings > Edge Functions)
+
+Functions are available at `http://localhost:54321/functions/v1/<function-name>`
+
+For example, the expiration estimation function:
+
+- `http://localhost:54321/functions/v1/estimate-expiration`
+
+**Note:** You can run both the frontend and Supabase simultaneously:
+
+- Terminal 1: `npm run dev` (frontend on :5173)
+- Terminal 2: `npm run supabase:start` (Supabase with functions on :54321)
+
+**Setting up local environment variables from .env:**
+
+You can use the helper script to automatically create `supabase/functions/.env` from your root `.env` file:
+
+```bash
+./scripts/setup-secrets.sh
+```
+
+Or manually create `supabase/functions/.env` with the same variables from your root `.env`.
+
+**Note:** The `supabase/functions/.env` file is gitignored and only used for local development. For production secrets, use the Supabase Dashboard.
+
+To test functions locally, you can use the test script:
+
+```bash
+./test-api.sh
+```
 
 ### Building for Production
 
@@ -118,6 +208,13 @@ npm run preview
 - `npm run supabase:types` - Generate TypeScript types from database schema
 - `npm run supabase:migration <name>` - Create new database migration
 
+### API (Supabase Functions)
+
+- Supabase Functions run automatically when Supabase is started
+- Functions are available at
+  `http://localhost:54321/functions/v1/<function-name>`
+- To deploy functions: `supabase functions deploy <function-name>`
+
 ### Utilities
 
 - `npm run prepare` - Generate Panda CSS styles (runs automatically on install)
@@ -146,6 +243,8 @@ documentation.
 fridgr/
 ├── .storybook/          # Storybook configuration
 ├── supabase/            # Supabase configuration
+│   ├── functions/       # Supabase Edge Functions
+│   │   └── estimate-expiration/  # Expiration date estimation function
 │   ├── migrations/      # Database migrations
 │   └── seed.sql        # Seed data
 ├── docs/                # Documentation

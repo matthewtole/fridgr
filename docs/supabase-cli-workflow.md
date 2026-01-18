@@ -18,12 +18,14 @@ supabase start
 ```
 
 This starts all local Supabase services:
+
 - PostgreSQL database on port 54322
 - Supabase Studio on port 54323
 - API server on port 54321
 - Auth, Storage, Realtime, and other services
 
-**Note:** The first time you run this, it will download Docker images (takes a few minutes).
+**Note:** The first time you run this, it will download Docker images (takes a
+few minutes).
 
 ### Stop Local Supabase
 
@@ -57,6 +59,7 @@ supabase db reset
 ```
 
 This:
+
 1. Resets the database (drops all tables)
 2. Applies all migrations in order
 3. Runs seed data from `supabase/seed.sql`
@@ -69,7 +72,8 @@ This:
 supabase migration up
 ```
 
-Applies only migrations that haven't been applied yet, without resetting the database.
+Applies only migrations that haven't been applied yet, without resetting the
+database.
 
 ## TypeScript Type Generation
 
@@ -82,6 +86,7 @@ supabase gen types typescript --local > src/types/database.ts
 ```
 
 **When to run:**
+
 - After creating or modifying tables
 - After applying migrations
 - Before committing schema changes
@@ -162,7 +167,7 @@ Local Supabase credentials are displayed when you run `supabase start`:
 - **Anon Key**: Displayed in output
 - **Service Role Key**: Displayed in output
 
-You can optionally save these to `.env.local` for use in your application.
+You can optionally save these to `.env` for use in your application.
 
 ## Troubleshooting
 
@@ -196,10 +201,12 @@ If Docker containers fail to start:
 
 ## Best Practices
 
-1. **Always use migrations** - Never modify schema directly in Studio for production
+1. **Always use migrations** - Never modify schema directly in Studio for
+   production
 2. **Version control migrations** - Commit all migration files to git
 3. **Test migrations** - Run `supabase db reset` after creating migrations
-4. **Regenerate types** - Always regenerate TypeScript types after schema changes
+4. **Regenerate types** - Always regenerate TypeScript types after schema
+   changes
 5. **Use seed data** - Keep seed.sql minimal, use it for test data only
 6. **Document changes** - Update `docs/database-schema.md` when adding tables
 
