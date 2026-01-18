@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { ErrorDisplay } from '../../components/ErrorDisplay/ErrorDisplay'
 import { Button } from '../../components/Button/Button'
+import { TextInput } from '../../components/TextInput/TextInput'
 import { css } from '../../../styled-system/css'
 
 interface LoginProps {
@@ -82,26 +83,13 @@ export function Login({ onSuccess }: LoginProps) {
             >
               Email
             </label>
-            <input
+            <TextInput
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               autoComplete="email"
-              className={css({
-                width: '100%',
-                padding: '0.75rem',
-                border: '1px solid',
-                borderColor: 'gray.300',
-                borderRadius: '0.375rem',
-                fontSize: '1rem',
-                _focus: {
-                  outline: 'none',
-                  borderColor: 'blue.500',
-                  boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)',
-                },
-              })}
             />
           </div>
 
@@ -120,26 +108,13 @@ export function Login({ onSuccess }: LoginProps) {
             >
               Password
             </label>
-            <input
+            <TextInput
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
-              className={css({
-                width: '100%',
-                padding: '0.75rem',
-                border: '1px solid',
-                borderColor: 'gray.300',
-                borderRadius: '0.375rem',
-                fontSize: '1rem',
-                _focus: {
-                  outline: 'none',
-                  borderColor: 'blue.500',
-                  boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)',
-                },
-              })}
             />
           </div>
 

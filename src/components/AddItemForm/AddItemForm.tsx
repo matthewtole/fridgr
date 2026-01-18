@@ -3,6 +3,7 @@ import { useCreateInventoryItem } from '../../hooks/useInventory'
 import { useLocations } from '../../hooks/useLocations'
 import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay'
 import { Button } from '../Button/Button'
+import { TextInput } from '../TextInput/TextInput'
 import { css } from '../../../styled-system/css'
 import type { Database } from '../../types/database'
 
@@ -118,7 +119,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
         >
           Product Name *
         </label>
-        <input
+        <TextInput
           id="productName"
           type="text"
           value={formData.productName}
@@ -126,19 +127,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
             setFormData((prev) => ({ ...prev, productName: e.target.value }))
           }
           required
-          className={css({
-            width: '100%',
-            padding: '0.75rem',
-            border: '1px solid',
-            borderColor: errors.productName ? 'red.300' : 'gray.300',
-            borderRadius: '0.375rem',
-            fontSize: '1rem',
-            _focus: {
-              outline: 'none',
-              borderColor: 'blue.500',
-              boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)',
-            },
-          })}
+          error={!!errors.productName}
         />
         {errors.productName && (
           <p
@@ -172,7 +161,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
           >
             Quantity *
           </label>
-          <input
+          <TextInput
             id="quantity"
             type="number"
             step="0.01"
@@ -182,19 +171,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
               setFormData((prev) => ({ ...prev, quantity: e.target.value }))
             }
             required
-            className={css({
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid',
-              borderColor: errors.quantity ? 'red.300' : 'gray.300',
-              borderRadius: '0.375rem',
-              fontSize: '1rem',
-              _focus: {
-                outline: 'none',
-                borderColor: 'blue.500',
-                boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)',
-              },
-            })}
+            error={!!errors.quantity}
           />
           {errors.quantity && (
             <p
@@ -327,7 +304,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
           >
             Added Date *
           </label>
-          <input
+          <TextInput
             id="addedDate"
             type="date"
             value={formData.addedDate}
@@ -335,19 +312,6 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
               setFormData((prev) => ({ ...prev, addedDate: e.target.value }))
             }
             required
-            className={css({
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid',
-              borderColor: 'gray.300',
-              borderRadius: '0.375rem',
-              fontSize: '1rem',
-              _focus: {
-                outline: 'none',
-                borderColor: 'blue.500',
-                boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)',
-              },
-            })}
           />
         </div>
 
@@ -362,7 +326,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
           >
             Expiration Date
           </label>
-          <input
+          <TextInput
             id="expirationDate"
             type="date"
             value={formData.expirationDate}
@@ -373,19 +337,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
               }))
             }
             min={formData.addedDate}
-            className={css({
-              width: '100%',
-              padding: '0.75rem',
-              border: '1px solid',
-              borderColor: errors.expirationDate ? 'red.300' : 'gray.300',
-              borderRadius: '0.375rem',
-              fontSize: '1rem',
-              _focus: {
-                outline: 'none',
-                borderColor: 'blue.500',
-                boxShadow: '0 0 0 3px rgba(59, 130, 246, 0.1)',
-              },
-            })}
+            error={!!errors.expirationDate}
           />
           {errors.expirationDate && (
             <p
