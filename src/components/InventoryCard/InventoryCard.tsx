@@ -1,37 +1,37 @@
-import { css } from '../../../styled-system/css'
-import { Button } from '../Button/Button'
-import type { ParsedInventoryItem } from '../../lib/queries/inventory'
+import { css } from '../../../styled-system/css';
+import { Button } from '../Button/Button';
+import type { ParsedInventoryItem } from '../../lib/queries/inventory';
 
 interface InventoryCardProps {
-  item: ParsedInventoryItem
-  onEdit?: () => void
+  item: ParsedInventoryItem;
+  onEdit?: () => void;
 }
 
 export function InventoryCard({ item, onEdit }: InventoryCardProps) {
   const formatQuantity = () => {
-    const quantity = item.quantity
-    const type = item.quantityType
+    const quantity = item.quantity;
+    const type = item.quantityType;
 
     if (type === 'units') {
-      return `${quantity} ${quantity === 1 ? 'unit' : 'units'}`
+      return `${quantity} ${quantity === 1 ? 'unit' : 'units'}`;
     }
     if (type === 'volume') {
-      return `${quantity} ${quantity === 1 ? 'unit' : 'units'} (volume)`
+      return `${quantity} ${quantity === 1 ? 'unit' : 'units'} (volume)`;
     }
     if (type === 'weight') {
-      return `${quantity} ${quantity === 1 ? 'unit' : 'units'} (weight)`
+      return `${quantity} ${quantity === 1 ? 'unit' : 'units'} (weight)`;
     }
     if (type === 'percentage') {
-      return `${quantity}%`
+      return `${quantity}%`;
     }
-    return `${quantity} ${type}`
-  }
+    return `${quantity} ${type}`;
+  };
 
   const formatLocation = () => {
     return (
       item.locationName.charAt(0).toUpperCase() + item.locationName.slice(1)
-    )
-  }
+    );
+  };
 
   return (
     <div
@@ -200,5 +200,5 @@ export function InventoryCard({ item, onEdit }: InventoryCardProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

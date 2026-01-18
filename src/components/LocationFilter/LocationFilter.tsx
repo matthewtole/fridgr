@@ -1,13 +1,13 @@
-import { useLocations } from '../../hooks/useLocations'
-import { css } from '../../../styled-system/css'
+import { useLocations } from '../../hooks/useLocations';
+import { css } from '../../../styled-system/css';
 
 interface LocationFilterProps {
-  value: number | undefined
-  onChange: (locationId: number | undefined) => void
+  value: number | undefined;
+  onChange: (locationId: number | undefined) => void;
 }
 
 export function LocationFilter({ value, onChange }: LocationFilterProps) {
-  const { data: locations = [], isLoading } = useLocations()
+  const { data: locations = [], isLoading } = useLocations();
 
   if (isLoading) {
     return (
@@ -20,15 +20,15 @@ export function LocationFilter({ value, onChange }: LocationFilterProps) {
       >
         Loading locations...
       </div>
-    )
+    );
   }
 
   return (
     <select
       value={value || ''}
       onChange={(e) => {
-        const locationId = e.target.value ? Number(e.target.value) : undefined
-        onChange(locationId)
+        const locationId = e.target.value ? Number(e.target.value) : undefined;
+        onChange(locationId);
       }}
       className={css({
         padding: '0.5rem 0.75rem',
@@ -52,5 +52,5 @@ export function LocationFilter({ value, onChange }: LocationFilterProps) {
         </option>
       ))}
     </select>
-  )
+  );
 }

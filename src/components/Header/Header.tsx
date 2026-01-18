@@ -1,14 +1,14 @@
-import { useAuth } from '../../contexts/AuthContext'
-import { Button } from '../Button/Button'
-import { css } from '../../../styled-system/css'
+import { useAuth } from '../../contexts/AuthContext';
+import { Button } from '../Button/Button';
+import { css } from '../../../styled-system/css';
 
 export function Header() {
-  const { user, signOut } = useAuth()
+  const { user, signOut } = useAuth();
 
   return (
     <header
       className={css({
-        padding: '1rem 2rem',
+        padding: '8px 16px',
         borderBottom: '1px solid',
         borderColor: 'gray.200',
         display: 'flex',
@@ -19,8 +19,11 @@ export function Header() {
     >
       <h1
         className={css({
-          fontSize: '1.5rem',
+          fontFamily: "'Miriam Libre', var(--font-fallback)",
+          fontSize: '1.2rem',
+          lineHeight: '1',
           fontWeight: 'bold',
+          textTransform: 'uppercase',
         })}
       >
         Fridgr
@@ -50,5 +53,5 @@ export function Header() {
         </Button>
       </div>
     </header>
-  )
+  );
 }

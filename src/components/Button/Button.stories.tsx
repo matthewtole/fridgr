@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Button } from './Button'
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Button } from './Button';
 
 const colorOptions = [
   'lemon',
@@ -12,7 +12,7 @@ const colorOptions = [
   'aqua',
   'aquamarine',
   'mint',
-] as const
+] as const;
 
 const meta = {
   title: 'Components/Button',
@@ -41,10 +41,10 @@ const meta = {
       control: 'boolean',
     },
   },
-} satisfies Meta<typeof Button>
+} satisfies Meta<typeof Button>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const SolidSky: Story = {
   args: {
@@ -52,7 +52,7 @@ export const SolidSky: Story = {
     color: 'sky',
     children: 'Button',
   },
-}
+};
 
 export const SolidMauve: Story = {
   args: {
@@ -60,7 +60,7 @@ export const SolidMauve: Story = {
     color: 'mauve',
     children: 'Button',
   },
-}
+};
 
 export const SolidRose: Story = {
   args: {
@@ -68,7 +68,7 @@ export const SolidRose: Story = {
     color: 'rose',
     children: 'Button',
   },
-}
+};
 
 export const SolidMint: Story = {
   args: {
@@ -76,7 +76,7 @@ export const SolidMint: Story = {
     color: 'mint',
     children: 'Button',
   },
-}
+};
 
 export const Outline: Story = {
   args: {
@@ -84,7 +84,7 @@ export const Outline: Story = {
     color: 'sky',
     children: 'Button',
   },
-}
+};
 
 export const Light: Story = {
   args: {
@@ -92,7 +92,7 @@ export const Light: Story = {
     color: 'sky',
     children: 'Button',
   },
-}
+};
 
 export const Ghost: Story = {
   args: {
@@ -100,7 +100,7 @@ export const Ghost: Story = {
     color: 'rose',
     children: '×',
   },
-}
+};
 
 export const Small: Story = {
   args: {
@@ -109,7 +109,7 @@ export const Small: Story = {
     size: 'small',
     children: 'Small Button',
   },
-}
+};
 
 export const Medium: Story = {
   args: {
@@ -118,7 +118,7 @@ export const Medium: Story = {
     size: 'medium',
     children: 'Medium Button',
   },
-}
+};
 
 export const Large: Story = {
   args: {
@@ -127,7 +127,7 @@ export const Large: Story = {
     size: 'large',
     children: 'Large Button',
   },
-}
+};
 
 export const Loading: Story = {
   args: {
@@ -136,7 +136,7 @@ export const Loading: Story = {
     loading: true,
     children: 'Loading...',
   },
-}
+};
 
 export const Disabled: Story = {
   args: {
@@ -145,4 +145,4 @@ export const Disabled: Story = {
     disabled: true,
     children: 'Disabled',
   },
-}
+};

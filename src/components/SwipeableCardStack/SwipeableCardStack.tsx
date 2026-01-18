@@ -1,18 +1,18 @@
-import { useState } from 'react'
-import { animated, useSprings } from '@react-spring/web'
-import { useDrag } from '@use-gesture/react'
-import { css } from '../../../styled-system/css'
+import { useState } from 'react';
+import { animated, useSprings } from '@react-spring/web';
+import { useDrag } from '@use-gesture/react';
+import { css } from '../../../styled-system/css';
 
 interface SwipeableCardStackProps<T> {
-  items: T[]
-  renderCard: (item: T, index: number) => React.ReactNode
-  onApprove: (item: T) => void
-  onReject: (item: T) => void
-  onEdit: (item: T, index: number) => void
+  items: T[];
+  renderCard: (item: T, index: number) => React.ReactNode;
+  onApprove: (item: T) => void;
+  onReject: (item: T) => void;
+  onEdit: (item: T, index: number) => void;
 }
 
-const SWIPE_THRESHOLD = 100 // pixels to swipe before triggering action
-const ROTATION_FACTOR = 0.1 // rotation per pixel of drag
+const SWIPE_THRESHOLD = 100; // pixels to swipe before triggering action
+const ROTATION_FACTOR = 0.1; // rotation per pixel of drag
 
 export function SwipeableCardStack<T>({
   items,
@@ -21,9 +21,9 @@ export function SwipeableCardStack<T>({
   onReject,
   onEdit,
 }: SwipeableCardStackProps<T>) {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [hasDragged, setHasDragged] = useState(false)
-  const [dragStartTime, setDragStartTime] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [hasDragged, setHasDragged] = useState(false);
+  const [dragStartTime, setDragStartTime] = useState(0);
 
   // Create springs for each card (only show top 3 cards)
   const [springs, api] = useSprings(
@@ -36,7 +36,7 @@ export function SwipeableCardStack<T>({
       opacity: 1,
       zIndex: items.length - currentIndex - index,
     })
-  )
+  );
 
   const bind = useDrag(
     ({
@@ -48,45 +48,45 @@ export function SwipeableCardStack<T>({
       last,
     }) => {
       const trigger =
-        Math.abs(mx) > SWIPE_THRESHOLD || (vx > 0.5 && Math.abs(mx) > 50)
-      const dir = xDir > 0 ? 1 : -1 // 1 = right (approve), -1 = left (reject)
+        Math.abs(mx) > SWIPE_THRESHOLD || (vx > 0.5 && Math.abs(mx) > 50);
+      const dir = xDir > 0 ? 1 : -1; // 1 = right (approve), -1 = left (reject)
 
       if (first) {
-        setHasDragged(false)
-        setDragStartTime(Date.now())
+        setHasDragged(false);
+        setDragStartTime(Date.now());
       }
 
       if (active) {
         // Only consider it a drag if movement is significant
         if (Math.abs(mx) > 5 || Math.abs(my) > 5) {
-          setHasDragged(true)
+          setHasDragged(true);
         }
 
         // Update the top card position while dragging
         api.start((i) => {
-          if (i !== 0) return // Only move the top card
+          if (i !== 0) return; // Only move the top card
           return {
             x: mx,
             y: my,
             rot: mx * ROTATION_FACTOR,
             scale: 1.05,
             immediate: true,
-          }
-        })
+          };
+        });
       } else if (last) {
         // Drag ended
         if (trigger && currentIndex < items.length) {
           // Swipe completed - trigger action
-          const currentItem = items[currentIndex]
+          const currentItem = items[currentIndex];
           if (dir > 0) {
-            onApprove(currentItem)
+            onApprove(currentItem);
           } else {
-            onReject(currentItem)
+            onReject(currentItem);
           }
 
           // Animate card off screen
           api.start((i) => {
-            if (i !== 0) return
+            if (i !== 0) return;
             return {
               x: dir * 1000,
               y: my,
@@ -94,13 +94,13 @@ export function SwipeableCardStack<T>({
               scale: 0.8,
               opacity: 0,
               config: { tension: 300, friction: 30 },
-            }
-          })
+            };
+          });
 
           // Move to next card after animation
           setTimeout(() => {
-            setCurrentIndex((prev) => prev + 1)
-            setHasDragged(false)
+            setCurrentIndex((prev) => prev + 1);
+            setHasDragged(false);
             // Reset springs for remaining cards
             api.start((i) => ({
               x: 0,
@@ -109,40 +109,40 @@ export function SwipeableCardStack<T>({
               scale: 1 - i * 0.05,
               opacity: 1,
               immediate: false,
-            }))
-          }, 300)
+            }));
+          }, 300);
         } else {
           // Snap back to center
           api.start((i) => {
-            if (i !== 0) return
+            if (i !== 0) return;
             return {
               x: 0,
               y: 0,
               rot: 0,
               scale: 1,
               config: { tension: 300, friction: 30 },
-            }
-          })
+            };
+          });
           // Reset drag state after a short delay to allow click to fire if no drag occurred
           setTimeout(() => {
-            setHasDragged(false)
-          }, 100)
+            setHasDragged(false);
+          }, 100);
         }
       }
     }
-  )
+  );
 
   const handleCardClick = (e: React.MouseEvent) => {
     // Only open edit modal if:
     // 1. No significant drag occurred
     // 2. It was a quick tap (not a long press)
     // 3. We haven't processed all items
-    const clickDuration = Date.now() - dragStartTime
+    const clickDuration = Date.now() - dragStartTime;
     if (!hasDragged && clickDuration < 300 && currentIndex < items.length) {
-      e.stopPropagation()
-      onEdit(items[currentIndex], currentIndex)
+      e.stopPropagation();
+      onEdit(items[currentIndex], currentIndex);
     }
-  }
+  };
 
   if (currentIndex >= items.length) {
     return (
@@ -158,7 +158,7 @@ export function SwipeableCardStack<T>({
       >
         All items processed!
       </div>
-    )
+    );
   }
 
   return (
@@ -174,8 +174,8 @@ export function SwipeableCardStack<T>({
       })}
     >
       {springs.map((spring, i) => {
-        const itemIndex = currentIndex + i
-        if (itemIndex >= items.length) return null
+        const itemIndex = currentIndex + i;
+        if (itemIndex >= items.length) return null;
 
         return (
           <animated.div
@@ -200,7 +200,7 @@ export function SwipeableCardStack<T>({
           >
             {renderCard(items[itemIndex], itemIndex)}
           </animated.div>
-        )
+        );
       })}
 
       {/* Action hints */}
@@ -257,5 +257,5 @@ export function SwipeableCardStack<T>({
         {currentIndex + 1} of {items.length}
       </div>
     </div>
-  )
+  );
 }

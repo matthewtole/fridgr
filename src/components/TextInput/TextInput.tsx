@@ -1,5 +1,5 @@
-import { cva } from '../../../styled-system/css'
-import type { InputHTMLAttributes } from 'react'
+import { cva } from '../../../styled-system/css';
+import type { InputHTMLAttributes } from 'react';
 
 const textInputRecipe = cva({
   base: {
@@ -27,14 +27,14 @@ const textInputRecipe = cva({
   defaultVariants: {
     error: false,
   },
-})
+});
 
 export interface TextInputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
   'size'
 > {
   /** Show error state */
-  error?: boolean
+  error?: boolean;
 }
 
 export function TextInput({
@@ -44,7 +44,7 @@ export function TextInput({
 }: TextInputProps) {
   const inputClassName = className
     ? `${textInputRecipe({ error })} ${className}`
-    : textInputRecipe({ error })
+    : textInputRecipe({ error });
 
-  return <input className={inputClassName} {...props} />
+  return <input className={inputClassName} {...props} />;
 }

@@ -1,12 +1,12 @@
-import { useDeleteInventoryItem } from '../../hooks/useInventory'
-import { Button } from '../Button/Button'
-import { css } from '../../../styled-system/css'
+import { useDeleteInventoryItem } from '../../hooks/useInventory';
+import { Button } from '../Button/Button';
+import { css } from '../../../styled-system/css';
 
 interface DeleteConfirmDialogProps {
-  isOpen: boolean
-  itemName: string
-  itemId: number
-  onClose: () => void
+  isOpen: boolean;
+  itemName: string;
+  itemId: number;
+  onClose: () => void;
 }
 
 export function DeleteConfirmDialog({
@@ -15,19 +15,19 @@ export function DeleteConfirmDialog({
   itemId,
   onClose,
 }: DeleteConfirmDialogProps) {
-  const deleteMutation = useDeleteInventoryItem()
+  const deleteMutation = useDeleteInventoryItem();
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const handleDelete = async () => {
     try {
-      await deleteMutation.mutateAsync(itemId)
-      onClose()
+      await deleteMutation.mutateAsync(itemId);
+      onClose();
     } catch (error) {
       // Error is handled by mutation
-      console.error('Failed to delete item:', error)
+      console.error('Failed to delete item:', error);
     }
-  }
+  };
 
   return (
     <div
@@ -101,5 +101,5 @@ export function DeleteConfirmDialog({
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react'
-import { useLocations } from '../../hooks/useLocations'
-import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay'
-import { Button } from '../Button/Button'
-import { TextInput } from '../TextInput/TextInput'
-import { css } from '../../../styled-system/css'
-import type { ParsedInventoryItem } from '../../lib/queries/inventory'
+import { useState, useEffect } from 'react';
+import { useLocations } from '../../hooks/useLocations';
+import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay';
+import { Button } from '../Button/Button';
+import { TextInput } from '../TextInput/TextInput';
+import { css } from '../../../styled-system/css';
+import type { ParsedInventoryItem } from '../../lib/queries/inventory';
 
 interface EditCardModalProps {
-  isOpen: boolean
-  item: ParsedInventoryItem
-  onSave: (updatedItem: ParsedInventoryItem) => void
-  onCancel: () => void
+  isOpen: boolean;
+  item: ParsedInventoryItem;
+  onSave: (updatedItem: ParsedInventoryItem) => void;
+  onCancel: () => void;
 }
 
 export function EditCardModal({
@@ -19,16 +19,16 @@ export function EditCardModal({
   onSave,
   onCancel,
 }: EditCardModalProps) {
-  const { data: locations = [] } = useLocations()
+  const { data: locations = [] } = useLocations();
 
   const [formData, setFormData] = useState<{
-    productName: string
-    quantity: string
-    quantityType: 'units' | 'volume' | 'percentage' | 'weight'
-    locationName: string
-    addedDate: string
-    expirationDate: string
-    openedStatus: boolean
+    productName: string;
+    quantity: string;
+    quantityType: 'units' | 'volume' | 'percentage' | 'weight';
+    locationName: string;
+    addedDate: string;
+    expirationDate: string;
+    openedStatus: boolean;
   }>({
     productName: item.productName,
     quantity: String(item.quantity),
@@ -37,9 +37,9 @@ export function EditCardModal({
     addedDate: new Date().toISOString().split('T')[0],
     expirationDate: item.expirationDate || '',
     openedStatus: item.openedStatus,
-  })
+  });
 
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Update form when item changes
   useEffect(() => {
@@ -51,41 +51,41 @@ export function EditCardModal({
       addedDate: new Date().toISOString().split('T')[0],
       expirationDate: item.expirationDate || '',
       openedStatus: item.openedStatus,
-    })
-  }, [item])
+    });
+  }, [item]);
 
   const validate = (): boolean => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
     if (!formData.productName.trim()) {
-      newErrors.productName = 'Product name is required'
+      newErrors.productName = 'Product name is required';
     }
 
     if (!formData.quantity || Number(formData.quantity) <= 0) {
-      newErrors.quantity = 'Quantity must be greater than 0'
+      newErrors.quantity = 'Quantity must be greater than 0';
     }
 
     if (!formData.locationName) {
-      newErrors.locationName = 'Location is required'
+      newErrors.locationName = 'Location is required';
     }
 
     if (
       formData.expirationDate &&
       formData.expirationDate < formData.addedDate
     ) {
-      newErrors.expirationDate = 'Expiration date must be after added date'
+      newErrors.expirationDate = 'Expiration date must be after added date';
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setErrors({})
+    e.preventDefault();
+    setErrors({});
 
     if (!validate()) {
-      return
+      return;
     }
 
     const updatedItem: ParsedInventoryItem = {
@@ -95,12 +95,12 @@ export function EditCardModal({
       locationName: formData.locationName,
       expirationDate: formData.expirationDate || undefined,
       openedStatus: formData.openedStatus,
-    }
+    };
 
-    onSave(updatedItem)
-  }
+    onSave(updatedItem);
+  };
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div
@@ -452,7 +452,12 @@ export function EditCardModal({
               justifyContent: 'flex-end',
             })}
           >
-            <Button type="button" variant="solid" color="mauve" onClick={onCancel}>
+            <Button
+              type="button"
+              variant="solid"
+              color="mauve"
+              onClick={onCancel}
+            >
               Cancel
             </Button>
             <Button type="submit" variant="solid" color="sky">
@@ -462,5 +467,5 @@ export function EditCardModal({
         </form>
       </div>
     </div>
-  )
+  );
 }

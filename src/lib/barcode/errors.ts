@@ -4,25 +4,25 @@
  */
 export function getCameraErrorMessage(error: DOMException | Error): string {
   const name =
-    error instanceof DOMException ? error.name : (error as Error).name
+    error instanceof DOMException ? error.name : (error as Error).name;
 
   switch (name) {
     case 'NotAllowedError':
-      return 'Camera access was denied. Enable it in your browser settings and try again, or enter the barcode manually.'
+      return 'Camera access was denied. Enable it in your browser settings and try again, or enter the barcode manually.';
     case 'NotFoundError':
-      return 'No camera was found on this device. You can enter the barcode manually.'
+      return 'No camera was found on this device. You can enter the barcode manually.';
     case 'NotReadableError':
-      return 'The camera is in use by another app. Close other apps using the camera and try again, or enter the barcode manually.'
+      return 'The camera is in use by another app. Close other apps using the camera and try again, or enter the barcode manually.';
     case 'OverconstrainedError':
-      return "This camera doesn't support the requested settings. Try again or enter the barcode manually."
+      return "This camera doesn't support the requested settings. Try again or enter the barcode manually.";
     case 'SecurityError':
-      return "Camera requires a secure connection (HTTPS). If you're on HTTP, use HTTPS or enter the barcode manually."
+      return "Camera requires a secure connection (HTTPS). If you're on HTTP, use HTTPS or enter the barcode manually.";
     case 'TypeError':
-      return 'Camera is not supported in this browser. Enter the barcode manually.'
+      return 'Camera is not supported in this browser. Enter the barcode manually.';
     case 'AbortError':
-      return 'Camera access was cancelled. Try again or enter the barcode manually.'
+      return 'Camera access was cancelled. Try again or enter the barcode manually.';
     default:
-      return 'Could not start the camera. Try again or enter the barcode manually.'
+      return 'Could not start the camera. Try again or enter the barcode manually.';
   }
 }
 
@@ -32,14 +32,14 @@ export function getCameraErrorMessage(error: DOMException | Error): string {
  */
 export function isCameraSupported(): boolean {
   if (typeof navigator === 'undefined' || !navigator.mediaDevices) {
-    return false
+    return false;
   }
   const { protocol, hostname } =
     typeof location !== 'undefined'
       ? location
-      : { protocol: 'https:', hostname: '' }
+      : { protocol: 'https:', hostname: '' };
   if (protocol !== 'https:' && !/^localhost|127\.0\.0\.1$/.test(hostname)) {
-    return false
+    return false;
   }
-  return true
+  return true;
 }

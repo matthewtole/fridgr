@@ -1,51 +1,51 @@
-import { useState } from 'react'
-import { AddItemForm, type AddItemPrefill } from './AddItemForm'
-import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner'
-import { lookupProductByBarcode } from '../../lib/queries/products'
-import { Button } from '../Button/Button'
-import { css } from '../../../styled-system/css'
+import { useState } from 'react';
+import { AddItemForm, type AddItemPrefill } from './AddItemForm';
+import { BarcodeScanner } from '../BarcodeScanner/BarcodeScanner';
+import { lookupProductByBarcode } from '../../lib/queries/products';
+import { Button } from '../Button/Button';
+import { css } from '../../../styled-system/css';
 
 interface AddItemModalProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-type ModalMode = 'choice' | 'scan' | 'form'
+type ModalMode = 'choice' | 'scan' | 'form';
 
 export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
-  const [mode, setMode] = useState<ModalMode>('choice')
-  const [prefill, setPrefill] = useState<AddItemPrefill | undefined>(undefined)
-  const [lookupLoading, setLookupLoading] = useState(false)
+  const [mode, setMode] = useState<ModalMode>('choice');
+  const [prefill, setPrefill] = useState<AddItemPrefill | undefined>(undefined);
+  const [lookupLoading, setLookupLoading] = useState(false);
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const handleSuccess = () => {
-    onClose()
-  }
+    onClose();
+  };
 
   const handleBarcodeScanned = async (barcode: string) => {
-    setLookupLoading(true)
+    setLookupLoading(true);
     try {
-      const product = await lookupProductByBarcode(barcode)
+      const product = await lookupProductByBarcode(barcode);
       if (product) {
-        setPrefill({ product_id: product.id, productName: product.name })
+        setPrefill({ product_id: product.id, productName: product.name });
       } else {
-        setPrefill({ productName: '', barcode })
+        setPrefill({ productName: '', barcode });
       }
-      setMode('form')
+      setMode('form');
     } catch {
-      setPrefill({ productName: '', barcode })
-      setMode('form')
+      setPrefill({ productName: '', barcode });
+      setMode('form');
     } finally {
-      setLookupLoading(false)
+      setLookupLoading(false);
     }
-  }
+  };
 
-  const handleCloseScan = () => setMode('choice')
+  const handleCloseScan = () => setMode('choice');
   const handleManualEntryFromScan = () => {
-    setPrefill(undefined)
-    setMode('form')
-  }
+    setPrefill(undefined);
+    setMode('form');
+  };
 
   const renderContent = () => {
     if (mode === 'choice') {
@@ -82,15 +82,15 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
               variant="solid"
               color="mauve"
               onClick={() => {
-                setPrefill(undefined)
-                setMode('form')
+                setPrefill(undefined);
+                setMode('form');
               }}
             >
               Add manually
             </Button>
           </div>
         </>
-      )
+      );
     }
 
     if (mode === 'scan') {
@@ -124,7 +124,7 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
             />
           )}
         </>
-      )
+      );
     }
 
     // form
@@ -145,11 +145,11 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
           onCancel={onClose}
         />
       </>
-    )
-  }
+    );
+  };
 
-  const isChoice = mode === 'choice'
-  const isScan = mode === 'scan'
+  const isChoice = mode === 'choice';
+  const isScan = mode === 'scan';
 
   return (
     <div
@@ -181,5 +181,5 @@ export function AddItemModal({ isOpen, onClose }: AddItemModalProps) {
         {renderContent()}
       </div>
     </div>
-  )
+  );
 }

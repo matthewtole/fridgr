@@ -1,49 +1,49 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
-import { useInventoryItems } from '../../hooks/useInventory'
-import { InventoryTable } from '../../components/InventoryTable/InventoryTable'
-import { AddItemModal } from '../../components/AddItemForm/AddItemModal'
-import { BulkAddModal } from '../../components/BulkAddModal/BulkAddModal'
-import { EditItemModal } from '../../components/EditItemForm/EditItemModal'
-import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog/DeleteConfirmDialog'
-import { LocationFilter } from '../../components/LocationFilter/LocationFilter'
-import { Button } from '../../components/Button/Button'
-import { css } from '../../../styled-system/css'
+import { createFileRoute } from '@tanstack/react-router';
+import { useState } from 'react';
+import { useInventoryItems } from '../../hooks/useInventory';
+import { InventoryTable } from '../../components/InventoryTable/InventoryTable';
+import { AddItemModal } from '../../components/AddItemForm/AddItemModal';
+import { BulkAddModal } from '../../components/BulkAddModal/BulkAddModal';
+import { EditItemModal } from '../../components/EditItemForm/EditItemModal';
+import { DeleteConfirmDialog } from '../../components/DeleteConfirmDialog/DeleteConfirmDialog';
+import { LocationFilter } from '../../components/LocationFilter/LocationFilter';
+import { Button } from '../../components/Button/Button';
+import { css } from '../../../styled-system/css';
 
 export const Route = createFileRoute('/_authenticated/')({
   component: InventoryPage,
-})
+});
 
 function InventoryPage() {
   const [selectedLocationId, setSelectedLocationId] = useState<
     number | undefined
-  >(undefined)
+  >(undefined);
   const {
     data: items = [],
     isLoading,
     error,
-  } = useInventoryItems(selectedLocationId)
-  const [editingId, setEditingId] = useState<number | null>(null)
+  } = useInventoryItems(selectedLocationId);
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [deletingItem, setDeletingItem] = useState<{
-    id: number
-    name: string
-  } | null>(null)
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false)
-  const [isBulkAddModalOpen, setIsBulkAddModalOpen] = useState(false)
+    id: number;
+    name: string;
+  } | null>(null);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isBulkAddModalOpen, setIsBulkAddModalOpen] = useState(false);
 
   const handleEdit = (id: number) => {
-    setEditingId(id)
-  }
+    setEditingId(id);
+  };
 
   const handleDelete = (id: number) => {
-    const item = items.find((i) => i.id === id)
+    const item = items.find((i) => i.id === id);
     if (item) {
       setDeletingItem({
         id: item.id,
         name: item.products?.name || 'Manual Entry',
-      })
+      });
     }
-  }
+  };
 
   if (error) {
     return (
@@ -57,7 +57,7 @@ function InventoryPage() {
         Error loading inventory:{' '}
         {error instanceof Error ? error.message : 'Unknown error'}
       </div>
-    )
+    );
   }
 
   return (
@@ -138,5 +138,5 @@ function InventoryPage() {
         />
       )}
     </div>
-  )
+  );
 }

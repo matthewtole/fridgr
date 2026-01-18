@@ -1,11 +1,11 @@
-import { createFileRoute, redirect, Outlet } from '@tanstack/react-router'
-import { Header } from '../components/Header/Header'
-import { css } from '../../styled-system/css'
+import { createFileRoute, redirect, Outlet } from '@tanstack/react-router';
+import { Header } from '../components/Header/Header';
+import { css } from '../../styled-system/css';
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: ({ context, location }) => {
     const auth = (context as { auth?: { user: unknown; loading: boolean } })
-      .auth
+      .auth;
 
     if (!auth) {
       throw redirect({
@@ -13,13 +13,13 @@ export const Route = createFileRoute('/_authenticated')({
         search: {
           redirect: location.href,
         },
-      })
+      });
     }
 
     if (auth.loading) {
       // Wait for auth to load - return undefined to allow route to load
       // The component will handle showing loading state
-      return
+      return;
     }
 
     if (!auth.user) {
@@ -28,11 +28,11 @@ export const Route = createFileRoute('/_authenticated')({
         search: {
           redirect: location.href,
         },
-      })
+      });
     }
   },
   component: AuthenticatedLayout,
-})
+});
 
 function AuthenticatedLayout() {
   return (
@@ -52,5 +52,5 @@ function AuthenticatedLayout() {
         <Outlet />
       </main>
     </div>
-  )
+  );
 }

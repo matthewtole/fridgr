@@ -12,12 +12,12 @@ product, and complete change history for undo functionality.
 erDiagram
     locations ||--o{ inventory_items : "has"
     locations ||--o{ expiration_rules : "has"
-    
+
     products ||--o{ product_barcodes : "has"
     products ||--o{ inventory_items : "references"
-    
+
     inventory_items ||--o{ inventory_history : "tracks"
-    
+
     locations {
         serial id PK
         text name UK
@@ -25,7 +25,7 @@ erDiagram
         timestamptz created_at
         timestamptz updated_at
     }
-    
+
     products {
         serial id PK
         text name
@@ -35,14 +35,14 @@ erDiagram
         timestamptz created_at
         timestamptz updated_at
     }
-    
+
     product_barcodes {
         serial id PK
         integer product_id FK
         text barcode UK
         timestamptz created_at
     }
-    
+
     inventory_items {
         serial id PK
         integer product_id FK
@@ -55,7 +55,7 @@ erDiagram
         timestamptz created_at
         timestamptz updated_at
     }
-    
+
     inventory_history {
         serial id PK
         integer inventory_item_id FK
@@ -65,7 +65,7 @@ erDiagram
         text_array changed_fields
         timestamptz created_at
     }
-    
+
     recipes {
         serial id PK
         text name
@@ -74,7 +74,7 @@ erDiagram
         timestamptz created_at
         timestamptz updated_at
     }
-    
+
     expiration_rules {
         serial id PK
         text category
@@ -84,7 +84,7 @@ erDiagram
         timestamptz created_at
         timestamptz updated_at
     }
-    
+
     user_corrections {
         serial id PK
         text product_type
@@ -248,9 +248,9 @@ Stores recipe collection with structured ingredients.
 
 ```json
 [
-    { "item": "flour", "quantity": 2, "unit": "cups" },
-    { "item": "eggs", "quantity": 3, "unit": "units" },
-    { "item": "milk", "quantity": 1, "unit": "cup" }
+  { "item": "flour", "quantity": 2, "unit": "cups" },
+  { "item": "eggs", "quantity": 3, "unit": "units" },
+  { "item": "milk", "quantity": 1, "unit": "cup" }
 ]
 ```
 

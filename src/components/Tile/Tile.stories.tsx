@@ -1,13 +1,13 @@
-import { Meta, StoryObj } from '@storybook/react-vite'
+import { Meta, StoryObj } from '@storybook/react-vite';
 import {
   IconScan,
   IconSearch,
   IconMicrophone,
   IconApps,
   IconPlus,
-} from '@tabler/icons-react'
-import { Tile } from './Tile'
-import { css } from '../../../styled-system/css'
+} from '@tabler/icons-react';
+import { Tile } from './Tile';
+import { css } from '../../../styled-system/css';
 
 const meta = {
   title: 'Components/Tile',
@@ -19,10 +19,10 @@ const meta = {
       options: ['scan', 'search', 'voice', 'browse', 'addItem'],
     },
   },
-} satisfies Meta<typeof Tile>
+} satisfies Meta<typeof Tile>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Scan: Story = {
   args: {
@@ -30,7 +30,7 @@ export const Scan: Story = {
     label: 'Scan Item',
     icon: <IconScan size={28} />,
   },
-}
+};
 
 export const Search: Story = {
   args: {
@@ -38,7 +38,7 @@ export const Search: Story = {
     label: 'Search',
     icon: <IconSearch size={28} />,
   },
-}
+};
 
 export const Voice: Story = {
   args: {
@@ -46,7 +46,7 @@ export const Voice: Story = {
     label: 'Voice',
     icon: <IconMicrophone size={28} />,
   },
-}
+};
 
 export const Browse: Story = {
   args: {
@@ -54,7 +54,7 @@ export const Browse: Story = {
     label: 'Browse',
     icon: <IconApps size={28} />,
   },
-}
+};
 
 export const AddItem: Story = {
   args: {
@@ -62,7 +62,7 @@ export const AddItem: Story = {
     label: 'Add Item',
     icon: <IconPlus size={28} />,
   },
-}
+};
 
 export const AllTiles: Story = {
   args: { label: '' },
@@ -87,4 +87,4 @@ export const AllTiles: Story = {
       <Tile variant="addItem" label="Add Item" icon={<IconPlus size={28} />} />
     </div>
   ),
-}
+};

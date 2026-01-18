@@ -1,7 +1,7 @@
-import type { Preview } from '@storybook/react-vite'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React from 'react'
-import '../src/styles/global.css'
+import type { Preview } from '@storybook/react-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from 'react';
+import '../src/styles/global.css';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -10,7 +10,7 @@ const queryClient = new QueryClient({
       staleTime: Infinity,
     },
   },
-})
+});
 
 const preview: Preview = {
   parameters: {
@@ -35,6 +35,6 @@ const preview: Preview = {
         React.createElement(Story)
       ),
   ],
-}
+};
 
-export default preview
+export default preview;

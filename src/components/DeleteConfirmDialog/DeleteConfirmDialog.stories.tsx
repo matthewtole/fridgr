@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { DeleteConfirmDialog } from './DeleteConfirmDialog'
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { DeleteConfirmDialog } from './DeleteConfirmDialog';
 
 const meta = {
   title: 'Components/DeleteConfirmDialog',
@@ -11,22 +11,22 @@ const meta = {
         defaultOptions: {
           queries: { retry: false },
         },
-      })
+      });
       return (
         <QueryClientProvider client={queryClient}>
           <Story />
         </QueryClientProvider>
-      )
+      );
     },
   ],
   parameters: {
     layout: 'fullscreen',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof DeleteConfirmDialog>
+} satisfies Meta<typeof DeleteConfirmDialog>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -35,7 +35,7 @@ export const Default: Story = {
     itemId: 1,
     onClose: () => console.log('Closed'),
   },
-}
+};
 
 export const WithLongItemName: Story = {
   args: {
@@ -44,4 +44,4 @@ export const WithLongItemName: Story = {
     itemId: 2,
     onClose: () => console.log('Closed'),
   },
-}
+};

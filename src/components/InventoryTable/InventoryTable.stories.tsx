@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { InventoryTable } from './InventoryTable'
-import type { InventoryItemWithRelations } from '../../lib/queries/inventory'
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { InventoryTable } from './InventoryTable';
+import type { InventoryItemWithRelations } from '../../lib/queries/inventory';
 
 const meta = {
   title: 'Components/InventoryTable',
@@ -12,22 +12,22 @@ const meta = {
         defaultOptions: {
           queries: { retry: false },
         },
-      })
+      });
       return (
         <QueryClientProvider client={queryClient}>
           <Story />
         </QueryClientProvider>
-      )
+      );
     },
   ],
   parameters: {
     layout: 'padded',
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof InventoryTable>
+} satisfies Meta<typeof InventoryTable>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 const mockItems: InventoryItemWithRelations[] = [
   {
@@ -87,7 +87,7 @@ const mockItems: InventoryItemWithRelations[] = [
       display_order: 3,
     },
   },
-]
+];
 
 export const Default: Story = {
   args: {
@@ -96,7 +96,7 @@ export const Default: Story = {
     onDelete: (id) => console.log('Delete', id),
     isLoading: false,
   },
-}
+};
 
 export const Loading: Story = {
   args: {
@@ -105,7 +105,7 @@ export const Loading: Story = {
     onDelete: (id) => console.log('Delete', id),
     isLoading: true,
   },
-}
+};
 
 export const Empty: Story = {
   args: {
@@ -114,7 +114,7 @@ export const Empty: Story = {
     onDelete: (id) => console.log('Delete', id),
     isLoading: false,
   },
-}
+};
 
 export const ManyItems: Story = {
   args: {
@@ -130,7 +130,7 @@ export const ManyItems: Story = {
     onDelete: (id) => console.log('Delete', id),
     isLoading: false,
   },
-}
+};
 
 export const ExpiringSoon: Story = {
   args: {
@@ -156,4 +156,4 @@ export const ExpiringSoon: Story = {
     onDelete: (id) => console.log('Delete', id),
     isLoading: false,
   },
-}
+};

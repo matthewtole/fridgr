@@ -1,86 +1,86 @@
-import { useState } from 'react'
-import { useParseInventoryText } from '../../hooks/useInventory'
-import { useCreateInventoryItemsBatch } from '../../hooks/useInventory'
-import { useLocations } from '../../hooks/useLocations'
-import { SwipeableCardStack } from '../SwipeableCardStack/SwipeableCardStack'
-import { InventoryCard } from '../InventoryCard/InventoryCard'
-import { EditCardModal } from '../EditCardModal/EditCardModal'
-import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay'
-import { Button } from '../Button/Button'
-import { css } from '../../../styled-system/css'
-import type { ParsedInventoryItem } from '../../lib/queries/inventory'
-import type { Database } from '../../types/database'
+import { useState } from 'react';
+import { useParseInventoryText } from '../../hooks/useInventory';
+import { useCreateInventoryItemsBatch } from '../../hooks/useInventory';
+import { useLocations } from '../../hooks/useLocations';
+import { SwipeableCardStack } from '../SwipeableCardStack/SwipeableCardStack';
+import { InventoryCard } from '../InventoryCard/InventoryCard';
+import { EditCardModal } from '../EditCardModal/EditCardModal';
+import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay';
+import { Button } from '../Button/Button';
+import { css } from '../../../styled-system/css';
+import type { ParsedInventoryItem } from '../../lib/queries/inventory';
+import type { Database } from '../../types/database';
 
 type InventoryItemInsert =
-  Database['public']['Tables']['inventory_items']['Insert']
+  Database['public']['Tables']['inventory_items']['Insert'];
 
 interface BulkAddModalProps {
-  isOpen: boolean
-  onClose: () => void
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-type ModalStep = 'input' | 'review' | 'success'
+type ModalStep = 'input' | 'review' | 'success';
 
 export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
-  const { data: locations = [] } = useLocations()
-  const parseMutation = useParseInventoryText()
-  const createBatchMutation = useCreateInventoryItemsBatch()
+  const { data: locations = [] } = useLocations();
+  const parseMutation = useParseInventoryText();
+  const createBatchMutation = useCreateInventoryItemsBatch();
 
-  const [step, setStep] = useState<ModalStep>('input')
-  const [textInput, setTextInput] = useState('')
-  const [parsedItems, setParsedItems] = useState<ParsedInventoryItem[]>([])
-  const [approvedItems, setApprovedItems] = useState<ParsedInventoryItem[]>([])
-  const [rejectedItems, setRejectedItems] = useState<ParsedInventoryItem[]>([])
+  const [step, setStep] = useState<ModalStep>('input');
+  const [textInput, setTextInput] = useState('');
+  const [parsedItems, setParsedItems] = useState<ParsedInventoryItem[]>([]);
+  const [approvedItems, setApprovedItems] = useState<ParsedInventoryItem[]>([]);
+  const [rejectedItems, setRejectedItems] = useState<ParsedInventoryItem[]>([]);
   const [editingItem, setEditingItem] = useState<{
-    item: ParsedInventoryItem
-    index: number
-  } | null>(null)
+    item: ParsedInventoryItem;
+    index: number;
+  } | null>(null);
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const handleParse = async () => {
     if (!textInput.trim()) {
-      return
+      return;
     }
 
     try {
-      const items = await parseMutation.mutateAsync(textInput)
+      const items = await parseMutation.mutateAsync(textInput);
       if (items.length === 0) {
         // Show error that no items were found
-        return
+        return;
       }
-      setParsedItems(items)
-      setStep('review')
+      setParsedItems(items);
+      setStep('review');
     } catch (error) {
       // Error is handled by mutation
-      console.error('Failed to parse text:', error)
+      console.error('Failed to parse text:', error);
     }
-  }
+  };
 
   const handleApprove = (item: ParsedInventoryItem) => {
-    setApprovedItems((prev) => [...prev, item])
-  }
+    setApprovedItems((prev) => [...prev, item]);
+  };
 
   const handleReject = (item: ParsedInventoryItem) => {
-    setRejectedItems((prev) => [...prev, item])
-  }
+    setRejectedItems((prev) => [...prev, item]);
+  };
 
   const handleEdit = (item: ParsedInventoryItem, index: number) => {
-    setEditingItem({ item, index })
-  }
+    setEditingItem({ item, index });
+  };
 
   const handleSaveEdit = (updatedItem: ParsedInventoryItem) => {
     if (editingItem) {
-      const newItems = [...parsedItems]
-      newItems[editingItem.index] = updatedItem
-      setParsedItems(newItems)
-      setEditingItem(null)
+      const newItems = [...parsedItems];
+      newItems[editingItem.index] = updatedItem;
+      setParsedItems(newItems);
+      setEditingItem(null);
     }
-  }
+  };
 
   const handleCreateItems = async () => {
     if (approvedItems.length === 0) {
-      return
+      return;
     }
 
     // Convert ParsedInventoryItem to InventoryItemInsert
@@ -89,10 +89,10 @@ export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
         // Find location ID from location name
         const location = locations.find(
           (loc) => loc.name.toLowerCase() === item.locationName.toLowerCase()
-        )
+        );
 
         if (!location) {
-          throw new Error(`Location "${item.locationName}" not found`)
+          throw new Error(`Location "${item.locationName}" not found`);
         }
 
         return {
@@ -103,33 +103,33 @@ export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
           expiration_date: item.expirationDate || null,
           opened_status: item.openedStatus,
           productName: item.productName,
-        }
-      })
+        };
+      });
 
     try {
-      await createBatchMutation.mutateAsync(itemsToCreate)
-      setStep('success')
+      await createBatchMutation.mutateAsync(itemsToCreate);
+      setStep('success');
     } catch (error) {
-      console.error('Failed to create items:', error)
+      console.error('Failed to create items:', error);
     }
-  }
+  };
 
   const handleReset = () => {
-    setTextInput('')
-    setParsedItems([])
-    setApprovedItems([])
-    setRejectedItems([])
-    setEditingItem(null)
-    setStep('input')
-  }
+    setTextInput('');
+    setParsedItems([]);
+    setApprovedItems([]);
+    setRejectedItems([]);
+    setEditingItem(null);
+    setStep('input');
+  };
 
   const handleClose = () => {
-    handleReset()
-    onClose()
-  }
+    handleReset();
+    onClose();
+  };
 
   const allItemsProcessed =
-    approvedItems.length + rejectedItems.length >= parsedItems.length
+    approvedItems.length + rejectedItems.length >= parsedItems.length;
 
   return (
     <div
@@ -297,9 +297,9 @@ export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
                   <Button variant="solid" color="mauve" onClick={handleReset}>
                     Start Over
                   </Button>
-<Button
-                  variant="solid"
-                  color="sky"
+                  <Button
+                    variant="solid"
+                    color="sky"
                     onClick={handleCreateItems}
                     disabled={
                       approvedItems.length === 0 ||
@@ -372,5 +372,5 @@ export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
         )}
       </div>
     </div>
-  )
+  );
 }

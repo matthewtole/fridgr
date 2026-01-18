@@ -1,1 +1,8 @@
 @layer reset, base, tokens, recipes, utilities;
+
+@layer base {
+  html,
+  :host {
+    --global-font-body: 'Open Sans', var(--font-fallback);
+  }
+}

@@ -1,22 +1,22 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import {
   useInventoryItem,
   useUpdateInventoryItem,
-} from '../../hooks/useInventory'
-import { useLocations } from '../../hooks/useLocations'
-import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay'
-import { Button } from '../Button/Button'
-import { TextInput } from '../TextInput/TextInput'
-import { css } from '../../../styled-system/css'
-import type { Database } from '../../types/database'
+} from '../../hooks/useInventory';
+import { useLocations } from '../../hooks/useLocations';
+import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay';
+import { Button } from '../Button/Button';
+import { TextInput } from '../TextInput/TextInput';
+import { css } from '../../../styled-system/css';
+import type { Database } from '../../types/database';
 
 type InventoryItemUpdate =
-  Database['public']['Tables']['inventory_items']['Update']
+  Database['public']['Tables']['inventory_items']['Update'];
 
 interface EditItemFormProps {
-  itemId: number
-  onSuccess: () => void
-  onCancel: () => void
+  itemId: number;
+  onSuccess: () => void;
+  onCancel: () => void;
 }
 
 export function EditItemForm({
@@ -24,9 +24,9 @@ export function EditItemForm({
   onSuccess,
   onCancel,
 }: EditItemFormProps) {
-  const { data: item, isLoading: isLoadingItem } = useInventoryItem(itemId)
-  const { data: locations = [] } = useLocations()
-  const updateMutation = useUpdateInventoryItem()
+  const { data: item, isLoading: isLoadingItem } = useInventoryItem(itemId);
+  const { data: locations = [] } = useLocations();
+  const updateMutation = useUpdateInventoryItem();
 
   // Derive initial form data from item
   const getInitialFormData = () => {
@@ -38,7 +38,7 @@ export function EditItemForm({
         addedDate: '',
         expirationDate: '',
         openedStatus: false,
-      }
+      };
     }
     return {
       quantity: String(item.quantity),
@@ -51,48 +51,48 @@ export function EditItemForm({
       addedDate: item.added_date,
       expirationDate: item.expiration_date || '',
       openedStatus: item.opened_status || false,
-    }
-  }
+    };
+  };
 
-  const [formData, setFormData] = useState(getInitialFormData)
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [formData, setFormData] = useState(getInitialFormData);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Update form data when item changes
   useEffect(() => {
     if (item) {
-      setFormData(getInitialFormData())
+      setFormData(getInitialFormData());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [item])
+  }, [item]);
 
   const validate = (): boolean => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
     if (!formData.quantity || Number(formData.quantity) <= 0) {
-      newErrors.quantity = 'Quantity must be greater than 0'
+      newErrors.quantity = 'Quantity must be greater than 0';
     }
 
     if (!formData.locationId) {
-      newErrors.locationId = 'Location is required'
+      newErrors.locationId = 'Location is required';
     }
 
     if (
       formData.expirationDate &&
       formData.expirationDate < formData.addedDate
     ) {
-      newErrors.expirationDate = 'Expiration date must be after added date'
+      newErrors.expirationDate = 'Expiration date must be after added date';
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setErrors({})
+    e.preventDefault();
+    setErrors({});
 
     if (!validate()) {
-      return
+      return;
     }
 
     const updateData: InventoryItemUpdate = {
@@ -102,18 +102,18 @@ export function EditItemForm({
       added_date: formData.addedDate,
       expiration_date: formData.expirationDate || null,
       opened_status: formData.openedStatus,
-    }
+    };
 
     try {
-      await updateMutation.mutateAsync({ id: itemId, data: updateData })
-      onSuccess()
+      await updateMutation.mutateAsync({ id: itemId, data: updateData });
+      onSuccess();
     } catch (error) {
       setErrors({
         submit:
           error instanceof Error ? error.message : 'Failed to update item',
-      })
+      });
     }
-  }
+  };
 
   if (isLoadingItem) {
     return (
@@ -126,7 +126,7 @@ export function EditItemForm({
       >
         Loading item...
       </div>
-    )
+    );
   }
 
   if (!item) {
@@ -140,7 +140,7 @@ export function EditItemForm({
       >
         Item not found
       </div>
-    )
+    );
   }
 
   return (
@@ -448,5 +448,5 @@ export function EditItemForm({
         </Button>
       </div>
     </form>
-  )
+  );
 }

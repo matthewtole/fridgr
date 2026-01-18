@@ -1,4 +1,4 @@
-import { sva } from '../../../styled-system/css'
+import { sva } from '../../../styled-system/css';
 
 export const tileRecipe = sva({
   slots: ['root', 'icon', 'label'],
@@ -59,6 +59,6 @@ export const tileRecipe = sva({
   defaultVariants: {
     variant: 'scan',
   },
-})
+});
 
-export type TileVariant = 'scan' | 'search' | 'voice' | 'browse' | 'addItem'
+export type TileVariant = 'scan' | 'search' | 'voice' | 'browse' | 'addItem';

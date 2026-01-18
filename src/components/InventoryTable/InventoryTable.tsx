@@ -5,51 +5,51 @@ import {
   flexRender,
   createColumnHelper,
   type SortingState,
-} from '@tanstack/react-table'
-import { useState } from 'react'
-import type { InventoryItemWithRelations } from '../../lib/queries/inventory'
-import { Button } from '../Button/Button'
-import { css } from '../../../styled-system/css'
+} from '@tanstack/react-table';
+import { useState } from 'react';
+import type { InventoryItemWithRelations } from '../../lib/queries/inventory';
+import { Button } from '../Button/Button';
+import { css } from '../../../styled-system/css';
 
 interface InventoryTableProps {
-  data: InventoryItemWithRelations[]
-  onEdit: (id: number) => void
-  onDelete: (id: number) => void
-  isLoading?: boolean
+  data: InventoryItemWithRelations[];
+  onEdit: (id: number) => void;
+  onDelete: (id: number) => void;
+  isLoading?: boolean;
 }
 
-const columnHelper = createColumnHelper<InventoryItemWithRelations>()
+const columnHelper = createColumnHelper<InventoryItemWithRelations>();
 
 function formatDate(dateString: string | null): string {
-  if (!dateString) return '—'
-  const date = new Date(dateString)
+  if (!dateString) return '—';
+  const date = new Date(dateString);
   return date.toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
-  })
+  });
 }
 
 function getExpirationColor(expirationDate: string | null): string {
-  if (!expirationDate) return 'gray.600'
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-  const expDate = new Date(expirationDate)
-  expDate.setHours(0, 0, 0, 0)
+  if (!expirationDate) return 'gray.600';
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const expDate = new Date(expirationDate);
+  expDate.setHours(0, 0, 0, 0);
   const diffDays = Math.floor(
     (expDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-  )
+  );
 
-  if (diffDays < 0) return 'red.600' // Expired
-  if (diffDays <= 3) return 'orange.600' // Expiring within 3 days
-  if (diffDays <= 7) return 'yellow.600' // Expiring within 7 days
-  return 'green.600' // Good
+  if (diffDays < 0) return 'red.600'; // Expired
+  if (diffDays <= 3) return 'orange.600'; // Expiring within 3 days
+  if (diffDays <= 7) return 'yellow.600'; // Expiring within 7 days
+  return 'green.600'; // Good
 }
 
 function formatQuantity(quantity: number, quantityType: string): string {
-  const qty = Number(quantity)
-  const type = quantityType.toLowerCase()
-  return `${qty} ${type}`
+  const qty = Number(quantity);
+  const type = quantityType.toLowerCase();
+  return `${qty} ${type}`;
 }
 
 export function InventoryTable({
@@ -58,7 +58,7 @@ export function InventoryTable({
   onDelete,
   isLoading = false,
 }: InventoryTableProps) {
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const columns = [
     columnHelper.accessor((row) => row.products?.name || 'Manual Entry', {
@@ -122,8 +122,8 @@ export function InventoryTable({
       id: 'expirationDate',
       header: 'Expiration Date',
       cell: (info) => {
-        const date = info.getValue()
-        const color = getExpirationColor(date)
+        const date = info.getValue();
+        const color = getExpirationColor(date);
         return (
           <span
             className={css({
@@ -134,7 +134,7 @@ export function InventoryTable({
           >
             {formatDate(date)}
           </span>
-        )
+        );
       },
     }),
     columnHelper.accessor((row) => row.opened_status, {
@@ -184,7 +184,7 @@ export function InventoryTable({
         </div>
       ),
     }),
-  ]
+  ];
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -196,7 +196,7 @@ export function InventoryTable({
     state: {
       sorting,
     },
-  })
+  });
 
   if (isLoading) {
     return (
@@ -209,7 +209,7 @@ export function InventoryTable({
       >
         Loading inventory items...
       </div>
-    )
+    );
   }
 
   if (data.length === 0) {
@@ -223,7 +223,7 @@ export function InventoryTable({
       >
         No inventory items found. Add your first item to get started!
       </div>
-    )
+    );
   }
 
   return (
@@ -330,5 +330,5 @@ export function InventoryTable({
         </tbody>
       </table>
     </div>
-  )
+  );
 }

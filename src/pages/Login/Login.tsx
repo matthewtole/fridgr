@@ -1,35 +1,35 @@
-import { useState } from 'react'
-import { useAuth } from '../../contexts/AuthContext'
-import { ErrorDisplay } from '../../components/ErrorDisplay/ErrorDisplay'
-import { Button } from '../../components/Button/Button'
-import { TextInput } from '../../components/TextInput/TextInput'
-import { css } from '../../../styled-system/css'
+import { useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import { ErrorDisplay } from '../../components/ErrorDisplay/ErrorDisplay';
+import { Button } from '../../components/Button/Button';
+import { TextInput } from '../../components/TextInput/TextInput';
+import { css } from '../../../styled-system/css';
 
 interface LoginProps {
-  onSuccess: () => void
+  onSuccess: () => void;
 }
 
 export function Login({ onSuccess }: LoginProps) {
-  const { signIn } = useAuth()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const { signIn } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-    setLoading(true)
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
 
-    const { error } = await signIn(email, password)
+    const { error } = await signIn(email, password);
 
     if (error) {
-      setError(error.message || 'Invalid email or password. Please try again.')
-      setLoading(false)
+      setError(error.message || 'Invalid email or password. Please try again.');
+      setLoading(false);
     } else {
-      onSuccess()
+      onSuccess();
     }
-  }
+  };
 
   return (
     <div
@@ -131,5 +131,5 @@ export function Login({ onSuccess }: LoginProps) {
         </form>
       </div>
     </div>
-  )
+  );
 }

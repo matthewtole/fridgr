@@ -30,23 +30,27 @@ and plan meals based on available ingredients.
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone <repository-url>
    cd fridgr
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Generate Panda CSS styles:
+
    ```bash
    npm run prepare
    ```
 
 4. Set up environment variables:
    - Create `.env` with your credentials:
+
      ```env
      # Supabase Configuration
      VITE_SUPABASE_URL=http://127.0.0.1:54321
@@ -58,6 +62,7 @@ and plan meals based on available ingredients.
      # Rate Limiting (optional, defaults to 10 requests per minute)
      RATE_LIMIT_MAX_REQUESTS=10
      ```
+
    - **Important:** For Supabase Functions to access environment variables in
      **local development**, create a `.env` file in `supabase/functions/`:
      ```bash
@@ -77,6 +82,7 @@ and plan meals based on available ingredients.
      [Anthropic Console](https://console.anthropic.com/)
 
 5. Start local Supabase (requires Docker):
+
    ```bash
    npm run supabase:start
    ```
@@ -124,12 +130,14 @@ For local development, create `supabase/functions/.env` with your secrets:
 ```
 
 Or manually create `supabase/functions/.env`:
+
 ```env
 ANTHROPIC_API_KEY=your-anthropic-api-key-here
 RATE_LIMIT_MAX_REQUESTS=10
 ```
 
-**Note:** 
+**Note:**
+
 - These environment variables are **LOCAL ONLY** and don't affect production
 - The `.env` file persists until you delete it
 - Supabase automatically loads this file when running functions locally

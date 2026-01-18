@@ -1,5 +1,5 @@
-import { cva } from '../../../styled-system/css'
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import { cva } from '../../../styled-system/css';
+import type { ButtonHTMLAttributes, ReactNode } from 'react';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const colors = [
@@ -13,7 +13,7 @@ const colors = [
   'aqua',
   'aquamarine',
   'mint',
-] as const
+] as const;
 
 // Explicit compoundVariants with literal token strings so Panda's static extractor
 // can find and emit the color token CSS (--colors-lemon, etc.). Using .map() or
@@ -21,11 +21,11 @@ const colors = [
 const solidExtras = {
   color: 'gray.800',
   _hover: { filter: 'brightness(0.97)' },
-}
+};
 const lightExtras = {
   color: 'gray.800',
   _hover: { filter: 'brightness(1.04)' },
-}
+};
 
 const buttonRecipe = cva({
   base: {
@@ -66,14 +66,17 @@ const buttonRecipe = cva({
       small: {
         padding: '4px 8px',
         fontSize: '12px',
+        borderRadius: '4px',
       },
       medium: {
         padding: '8px 16px',
         fontSize: '14px',
+        borderRadius: '6px',
       },
       large: {
         padding: '16px 32px',
         fontSize: '16px',
+        borderRadius: '8px',
       },
     },
   },
@@ -388,22 +391,22 @@ const buttonRecipe = cva({
     color: 'sky',
     size: 'medium',
   },
-})
+});
 
-export type ButtonVariant = 'solid' | 'outline' | 'light' | 'ghost'
-export type ButtonColor = (typeof colors)[number]
+export type ButtonVariant = 'solid' | 'outline' | 'light' | 'ghost';
+export type ButtonColor = (typeof colors)[number];
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual style: solid fill, outline, light tint, or ghost (transparent) */
-  variant?: ButtonVariant
+  variant?: ButtonVariant;
   /** Color from the palette */
-  color?: ButtonColor
+  color?: ButtonColor;
   /** Button size */
-  size?: 'small' | 'medium' | 'large'
+  size?: 'small' | 'medium' | 'large';
   /** Show loading state */
-  loading?: boolean
+  loading?: boolean;
   /** Button content */
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function Button({
@@ -416,11 +419,11 @@ export function Button({
   className,
   ...props
 }: ButtonProps) {
-  const isDisabled = disabled || loading
+  const isDisabled = disabled || loading;
 
   const buttonClassName = className
     ? `${buttonRecipe({ variant, color, size })} ${className}`
-    : buttonRecipe({ variant, color, size })
+    : buttonRecipe({ variant, color, size });
 
   return (
     <button
@@ -431,5 +434,5 @@ export function Button({
     >
       {children}
     </button>
-  )
+  );
 }

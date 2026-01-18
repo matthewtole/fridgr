@@ -1,25 +1,25 @@
-import { useState } from 'react'
-import { useCreateInventoryItem } from '../../hooks/useInventory'
-import { useLocations } from '../../hooks/useLocations'
-import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay'
-import { Button } from '../Button/Button'
-import { TextInput } from '../TextInput/TextInput'
-import { css } from '../../../styled-system/css'
-import type { Database } from '../../types/database'
+import { useState } from 'react';
+import { useCreateInventoryItem } from '../../hooks/useInventory';
+import { useLocations } from '../../hooks/useLocations';
+import { ErrorDisplay } from '../ErrorDisplay/ErrorDisplay';
+import { Button } from '../Button/Button';
+import { TextInput } from '../TextInput/TextInput';
+import { css } from '../../../styled-system/css';
+import type { Database } from '../../types/database';
 
 type InventoryItemInsert =
-  Database['public']['Tables']['inventory_items']['Insert']
+  Database['public']['Tables']['inventory_items']['Insert'];
 
 export interface AddItemPrefill {
-  product_id?: number
-  productName?: string
-  barcode?: string
+  product_id?: number;
+  productName?: string;
+  barcode?: string;
 }
 
 interface AddItemFormProps {
-  onSuccess: () => void
-  onCancel: () => void
-  prefill?: AddItemPrefill
+  onSuccess: () => void;
+  onCancel: () => void;
+  prefill?: AddItemPrefill;
 }
 
 export function AddItemForm({
@@ -27,17 +27,17 @@ export function AddItemForm({
   onCancel,
   prefill,
 }: AddItemFormProps) {
-  const { data: locations = [] } = useLocations()
-  const createMutation = useCreateInventoryItem()
+  const { data: locations = [] } = useLocations();
+  const createMutation = useCreateInventoryItem();
 
   const [formData, setFormData] = useState<{
-    productName: string
-    quantity: string
-    quantityType: 'units' | 'volume' | 'percentage' | 'weight'
-    locationId: string
-    addedDate: string
-    expirationDate: string
-    openedStatus: boolean
+    productName: string;
+    quantity: string;
+    quantityType: 'units' | 'volume' | 'percentage' | 'weight';
+    locationId: string;
+    addedDate: string;
+    expirationDate: string;
+    openedStatus: boolean;
   }>({
     productName: prefill?.productName ?? '',
     quantity: '',
@@ -46,47 +46,47 @@ export function AddItemForm({
     addedDate: new Date().toISOString().split('T')[0],
     expirationDate: '',
     openedStatus: false,
-  })
+  });
 
-  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validate = (): boolean => {
-    const newErrors: Record<string, string> = {}
+    const newErrors: Record<string, string> = {};
 
     if (!prefill?.product_id && !formData.productName.trim()) {
-      newErrors.productName = 'Product name is required'
+      newErrors.productName = 'Product name is required';
     }
 
     if (!formData.quantity || Number(formData.quantity) <= 0) {
-      newErrors.quantity = 'Quantity must be greater than 0'
+      newErrors.quantity = 'Quantity must be greater than 0';
     }
 
     if (!formData.locationId) {
-      newErrors.locationId = 'Location is required'
+      newErrors.locationId = 'Location is required';
     }
 
     if (
       formData.expirationDate &&
       formData.expirationDate < formData.addedDate
     ) {
-      newErrors.expirationDate = 'Expiration date must be after added date'
+      newErrors.expirationDate = 'Expiration date must be after added date';
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setErrors({})
+    e.preventDefault();
+    setErrors({});
 
     if (!validate()) {
-      return
+      return;
     }
 
     const insertData: InventoryItemInsert & {
-      productName?: string
-      barcode?: string
+      productName?: string;
+      barcode?: string;
     } = {
       quantity: Number(formData.quantity),
       quantity_type: formData.quantityType,
@@ -94,28 +94,28 @@ export function AddItemForm({
       added_date: formData.addedDate,
       expiration_date: formData.expirationDate || null,
       opened_status: formData.openedStatus,
-    }
+    };
 
     if (prefill?.product_id) {
-      insertData.product_id = prefill.product_id
+      insertData.product_id = prefill.product_id;
     } else {
-      insertData.productName = formData.productName
+      insertData.productName = formData.productName;
       if (prefill?.barcode?.trim()) {
-        insertData.barcode = prefill.barcode.trim()
+        insertData.barcode = prefill.barcode.trim();
       }
     }
 
     try {
-      await createMutation.mutateAsync(insertData)
-      onSuccess()
+      await createMutation.mutateAsync(insertData);
+      onSuccess();
     } catch (error) {
       // Error is handled by mutation, but we can show it here too
       setErrors({
         submit:
           error instanceof Error ? error.message : 'Failed to create item',
-      })
+      });
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -446,5 +446,5 @@ export function AddItemForm({
         </Button>
       </div>
     </form>
-  )
+  );
 }

@@ -1,16 +1,16 @@
-import { useEffect, useRef } from 'react'
-import { useBarcodeScanner } from '../../hooks/useBarcodeScanner'
-import { Button } from '../Button/Button'
-import { css } from '../../../styled-system/css'
+import { useEffect, useRef } from 'react';
+import { useBarcodeScanner } from '../../hooks/useBarcodeScanner';
+import { Button } from '../Button/Button';
+import { css } from '../../../styled-system/css';
 
-const BARCODE_SCANNER_ID = 'barcode-scanner-container'
+const BARCODE_SCANNER_ID = 'barcode-scanner-container';
 
 export interface BarcodeScannerProps {
-  onScan: (barcode: string) => void
-  onClose: () => void
-  onManualEntry?: () => void
+  onScan: (barcode: string) => void;
+  onClose: () => void;
+  onManualEntry?: () => void;
   /** When true, show a placeholder and "Simulate scan" instead of the camera. Use in Storybook or when mediaDevices is absent. */
-  mock?: boolean
+  mock?: boolean;
 }
 
 export function BarcodeScanner({
@@ -19,31 +19,31 @@ export function BarcodeScanner({
   onManualEntry,
   mock = false,
 }: BarcodeScannerProps) {
-  const { start, stop, retry, isRunning, error } = useBarcodeScanner()
-  const onScanRef = useRef(onScan)
-  const didScan = useRef(false)
+  const { start, stop, retry, isRunning, error } = useBarcodeScanner();
+  const onScanRef = useRef(onScan);
+  const didScan = useRef(false);
 
   useEffect(() => {
-    onScanRef.current = onScan
-  }, [onScan])
+    onScanRef.current = onScan;
+  }, [onScan]);
 
   const useMock =
-    mock || (typeof navigator !== 'undefined' && !navigator.mediaDevices)
+    mock || (typeof navigator !== 'undefined' && !navigator.mediaDevices);
 
   useEffect(() => {
-    if (useMock) return
-    didScan.current = false
+    if (useMock) return;
+    didScan.current = false;
     const handleSuccess = (barcode: string) => {
-      if (didScan.current) return
-      didScan.current = true
-      onScanRef.current(barcode)
-      void stop()
-    }
-    void start(BARCODE_SCANNER_ID, handleSuccess)
+      if (didScan.current) return;
+      didScan.current = true;
+      onScanRef.current(barcode);
+      void stop();
+    };
+    void start(BARCODE_SCANNER_ID, handleSuccess);
     return () => {
-      void stop()
-    }
-  }, [useMock, start, stop])
+      void stop();
+    };
+  }, [useMock, start, stop]);
 
   if (useMock) {
     return (
@@ -64,7 +64,12 @@ export function BarcodeScanner({
             zIndex: 10,
           })}
         >
-          <Button variant="ghost" color="rose" onClick={onClose} aria-label="Close">
+          <Button
+            variant="ghost"
+            color="rose"
+            onClick={onClose}
+            aria-label="Close"
+          >
             ×
           </Button>
         </div>
@@ -81,7 +86,11 @@ export function BarcodeScanner({
         >
           Camera simulated
         </div>
-        <Button variant="solid" color="sky" onClick={() => onScan('012345678901')}>
+        <Button
+          variant="solid"
+          color="sky"
+          onClick={() => onScan('012345678901')}
+        >
           Simulate scan
         </Button>
         {onManualEntry && (
@@ -90,7 +99,7 @@ export function BarcodeScanner({
           </Button>
         )}
       </div>
-    )
+    );
   }
 
   return (
@@ -111,7 +120,12 @@ export function BarcodeScanner({
           zIndex: 10,
         })}
       >
-        <Button variant="ghost" color="rose" onClick={onClose} aria-label="Close">
+        <Button
+          variant="ghost"
+          color="rose"
+          onClick={onClose}
+          aria-label="Close"
+        >
           ×
         </Button>
       </div>
@@ -159,7 +173,12 @@ export function BarcodeScanner({
               Retry
             </Button>
             {onManualEntry && (
-              <Button variant="solid" color="mauve" size="small" onClick={onManualEntry}>
+              <Button
+                variant="solid"
+                color="mauve"
+                size="small"
+                onClick={onManualEntry}
+              >
                 Enter manually
               </Button>
             )}
@@ -197,5 +216,5 @@ export function BarcodeScanner({
         </p>
       )}
     </div>
-  )
+  );
 }

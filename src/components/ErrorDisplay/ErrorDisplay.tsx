@@ -1,9 +1,9 @@
-import { Button } from '../Button/Button'
-import { css } from '../../../styled-system/css'
+import { Button } from '../Button/Button';
+import { css } from '../../../styled-system/css';
 
 interface ErrorDisplayProps {
-  message: string
-  onDismiss?: () => void
+  message: string;
+  onDismiss?: () => void;
 }
 
 export function ErrorDisplay({ message, onDismiss }: ErrorDisplayProps) {
@@ -40,5 +40,5 @@ export function ErrorDisplay({ message, onDismiss }: ErrorDisplayProps) {
         </Button>
       )}
     </div>
-  )
+  );
 }

@@ -1,18 +1,18 @@
-import { EditItemForm } from './EditItemForm'
-import { css } from '../../../styled-system/css'
+import { EditItemForm } from './EditItemForm';
+import { css } from '../../../styled-system/css';
 
 interface EditItemModalProps {
-  isOpen: boolean
-  itemId: number | null
-  onClose: () => void
+  isOpen: boolean;
+  itemId: number | null;
+  onClose: () => void;
 }
 
 export function EditItemModal({ isOpen, itemId, onClose }: EditItemModalProps) {
-  if (!isOpen || !itemId) return null
+  if (!isOpen || !itemId) return null;
 
   const handleSuccess = () => {
-    onClose()
-  }
+    onClose();
+  };
 
   return (
     <div
@@ -57,5 +57,5 @@ export function EditItemModal({ isOpen, itemId, onClose }: EditItemModalProps) {
         />
       </div>
     </div>
-  )
+  );
 }
