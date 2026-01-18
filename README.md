@@ -1,6 +1,8 @@
 # Fridgr - Kitchen Inventory App
 
-A web-based kitchen inventory management system that uses barcode scanning, image recognition, and AI to help users track pantry items, reduce food waste, and plan meals based on available ingredients.
+A web-based kitchen inventory management system that uses barcode scanning,
+image recognition, and AI to help users track pantry items, reduce food waste,
+and plan meals based on available ingredients.
 
 ## Tech Stack
 
@@ -43,12 +45,25 @@ A web-based kitchen inventory management system that uses barcode scanning, imag
    npm run prepare
    ```
 
-4. Start local Supabase (requires Docker):
+4. Set up environment variables:
+   - Copy `.env.local.example` to `.env.local` (if it exists)
+   - Or create `.env.local` with your Supabase credentials:
+     ```env
+     VITE_SUPABASE_URL=http://127.0.0.1:54321
+     VITE_SUPABASE_ANON_KEY=your-anon-key-here
+     ```
+   - Get your anon key by running `supabase status` after starting Supabase
+
+5. Start local Supabase (requires Docker):
    ```bash
    npm run supabase:start
    ```
-   
-   This starts a local PostgreSQL database and Supabase services. Access Supabase Studio at http://localhost:54323
+
+   This starts a local PostgreSQL database and Supabase services. Access
+   Supabase Studio at http://localhost:54323
+
+   **Note:** After starting Supabase, copy the `anon key` from the output and
+   add it to your `.env.local` file.
 
 ### Development
 
@@ -77,22 +92,26 @@ npm run preview
 ## Available Scripts
 
 ### Development
+
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run compile` - Type check TypeScript
 
 ### Code Quality
+
 - `npm run lint` - Run ESLint
 - `npm run lint:fix` - Fix ESLint issues automatically
 - `npm run format` - Format code with Prettier
 - `npm run format:check` - Check code formatting
 
 ### Storybook
+
 - `npm run storybook` - Start Storybook
 - `npm run build-storybook` - Build Storybook for static hosting
 
 ### Supabase
+
 - `npm run supabase:start` - Start local Supabase
 - `npm run supabase:stop` - Stop local Supabase
 - `npm run supabase:reset` - Reset database and apply all migrations
@@ -100,11 +119,14 @@ npm run preview
 - `npm run supabase:migration <name>` - Create new database migration
 
 ### Utilities
+
 - `npm run prepare` - Generate Panda CSS styles (runs automatically on install)
 
 ## Supabase Local Development
 
-This project uses Supabase CLI for local database development. See [docs/supabase-cli-workflow.md](docs/supabase-cli-workflow.md) for detailed instructions.
+This project uses Supabase CLI for local database development. See
+[docs/supabase-cli-workflow.md](docs/supabase-cli-workflow.md) for detailed
+instructions.
 
 ### Quick Start
 
@@ -115,7 +137,8 @@ This project uses Supabase CLI for local database development. See [docs/supabas
 
 ### Database Schema
 
-See [docs/database-schema.md](docs/database-schema.md) for complete schema documentation.
+See [docs/database-schema.md](docs/database-schema.md) for complete schema
+documentation.
 
 ## Project Structure
 
@@ -185,6 +208,7 @@ This project is configured for deployment on Vercel:
    - **Node Version:** 18.x or 20.x (LTS)
 
 Vercel will automatically:
+
 - Deploy previews for pull requests
 - Deploy to production on pushes to the main branch
 
