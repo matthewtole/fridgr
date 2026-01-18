@@ -167,7 +167,10 @@ export function EditCardModal({
               type="text"
               value={formData.productName}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, productName: e.target.value }))
+                setFormData((prev) => ({
+                  ...prev,
+                  productName: e.target.value,
+                }))
               }
               required
               error={!!errors.productName}
@@ -246,7 +249,8 @@ export function EditCardModal({
                 onChange={(e) =>
                   setFormData((prev) => ({
                     ...prev,
-                    quantityType: e.target.value as typeof formData.quantityType,
+                    quantityType: e.target
+                      .value as typeof formData.quantityType,
                   }))
                 }
                 required
@@ -291,7 +295,10 @@ export function EditCardModal({
               id="locationName"
               value={formData.locationName}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, locationName: e.target.value }))
+                setFormData((prev) => ({
+                  ...prev,
+                  locationName: e.target.value,
+                }))
               }
               required
               className={css({
@@ -311,7 +318,8 @@ export function EditCardModal({
               <option value="">Select a location</option>
               {locations.map((location) => (
                 <option key={location.id} value={location.name}>
-                  {location.name.charAt(0).toUpperCase() + location.name.slice(1)}
+                  {location.name.charAt(0).toUpperCase() +
+                    location.name.slice(1)}
                 </option>
               ))}
             </select>
@@ -352,7 +360,10 @@ export function EditCardModal({
                 type="date"
                 value={formData.addedDate}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, addedDate: e.target.value }))
+                  setFormData((prev) => ({
+                    ...prev,
+                    addedDate: e.target.value,
+                  }))
                 }
                 required
               />

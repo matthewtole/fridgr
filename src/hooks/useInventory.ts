@@ -8,7 +8,6 @@ import {
   parseInventoryText,
   createInventoryItemsBatch,
   type InventoryItemWithRelations,
-  type ParsedInventoryItem,
 } from '../lib/queries/inventory'
 import type { Database } from '../types/database'
 
@@ -36,7 +35,9 @@ export function useCreateInventoryItem() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: InventoryItemInsert) => createInventoryItem(data),
+    mutationFn: (
+      data: InventoryItemInsert & { productName?: string; barcode?: string }
+    ) => createInventoryItem(data),
     onSuccess: () => {
       // Invalidate and refetch inventory items
       queryClient.invalidateQueries({ queryKey: ['inventory-items'] })

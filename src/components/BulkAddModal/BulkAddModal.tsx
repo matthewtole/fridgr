@@ -175,8 +175,8 @@ export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
                 color: 'gray.600',
               })}
             >
-              Enter multiple items as plain text. For example: "2 apples, 1 gallon
-              of milk, 3 cans of soup"
+              Enter multiple items as plain text. For example: "2 apples, 1
+              gallon of milk, 3 cans of soup"
             </p>
 
             {parseMutation.error && (
@@ -300,7 +300,8 @@ export function BulkAddModal({ isOpen, onClose }: BulkAddModalProps) {
                     variant="primary"
                     onClick={handleCreateItems}
                     disabled={
-                      approvedItems.length === 0 || createBatchMutation.isPending
+                      approvedItems.length === 0 ||
+                      createBatchMutation.isPending
                     }
                     loading={createBatchMutation.isPending}
                   >

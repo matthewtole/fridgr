@@ -72,10 +72,7 @@ function validateRequestBody(body: unknown): body is RequestBody {
 
   const b = body as Record<string, unknown>
 
-  return (
-    typeof b.text === 'string' &&
-    b.text.trim().length > 0
-  )
+  return typeof b.text === 'string' && b.text.trim().length > 0
 }
 
 function createPrompt(text: string): string {
@@ -122,7 +119,9 @@ If no items can be identified, return an empty array: []
 Respond ONLY with valid JSON, no additional text or explanation.`
 }
 
-async function callAnthropicAPI(prompt: string): Promise<ParsedInventoryItem[]> {
+async function callAnthropicAPI(
+  prompt: string
+): Promise<ParsedInventoryItem[]> {
   const apiKey = Deno.env.get('ANTHROPIC_API_KEY')
 
   if (!apiKey) {

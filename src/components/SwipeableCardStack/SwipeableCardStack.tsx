@@ -39,8 +39,16 @@ export function SwipeableCardStack<T>({
   )
 
   const bind = useDrag(
-    ({ active, movement: [mx, my], direction: [xDir], velocity: [vx], first, last }) => {
-      const trigger = Math.abs(mx) > SWIPE_THRESHOLD || (vx > 0.5 && Math.abs(mx) > 50)
+    ({
+      active,
+      movement: [mx, my],
+      direction: [xDir],
+      velocity: [vx],
+      first,
+      last,
+    }) => {
+      const trigger =
+        Math.abs(mx) > SWIPE_THRESHOLD || (vx > 0.5 && Math.abs(mx) > 50)
       const dir = xDir > 0 ? 1 : -1 // 1 = right (approve), -1 = left (reject)
 
       if (first) {

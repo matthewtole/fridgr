@@ -10,12 +10,23 @@ import type { Database } from '../../types/database'
 type InventoryItemInsert =
   Database['public']['Tables']['inventory_items']['Insert']
 
+export interface AddItemPrefill {
+  product_id?: number
+  productName?: string
+  barcode?: string
+}
+
 interface AddItemFormProps {
   onSuccess: () => void
   onCancel: () => void
+  prefill?: AddItemPrefill
 }
 
-export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
+export function AddItemForm({
+  onSuccess,
+  onCancel,
+  prefill,
+}: AddItemFormProps) {
   const { data: locations = [] } = useLocations()
   const createMutation = useCreateInventoryItem()
 
@@ -28,7 +39,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
     expirationDate: string
     openedStatus: boolean
   }>({
-    productName: '',
+    productName: prefill?.productName ?? '',
     quantity: '',
     quantityType: 'units',
     locationId: '',
@@ -42,7 +53,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {}
 
-    if (!formData.productName.trim()) {
+    if (!prefill?.product_id && !formData.productName.trim()) {
       newErrors.productName = 'Product name is required'
     }
 
@@ -73,14 +84,25 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
       return
     }
 
-    const insertData: InventoryItemInsert & { productName?: string } = {
+    const insertData: InventoryItemInsert & {
+      productName?: string
+      barcode?: string
+    } = {
       quantity: Number(formData.quantity),
       quantity_type: formData.quantityType,
       location_id: Number(formData.locationId),
       added_date: formData.addedDate,
       expiration_date: formData.expirationDate || null,
       opened_status: formData.openedStatus,
-      productName: formData.productName, // Will create product entry if provided
+    }
+
+    if (prefill?.product_id) {
+      insertData.product_id = prefill.product_id
+    } else {
+      insertData.productName = formData.productName
+      if (prefill?.barcode?.trim()) {
+        insertData.barcode = prefill.barcode.trim()
+      }
     }
 
     try {
@@ -104,6 +126,18 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
         />
       )}
 
+      {prefill?.barcode && (
+        <p
+          className={css({
+            marginBottom: '1rem',
+            fontSize: '0.875rem',
+            color: 'gray.600',
+          })}
+        >
+          Scanned: {prefill.barcode}
+          {!prefill?.product_id && ' — not found. Enter details below.'}
+        </p>
+      )}
       <div
         className={css({
           marginBottom: '1rem',
@@ -117,7 +151,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
             fontWeight: 'medium',
           })}
         >
-          Product Name *
+          Product Name {prefill?.product_id ? '' : '*'}
         </label>
         <TextInput
           id="productName"
@@ -126,7 +160,7 @@ export function AddItemForm({ onSuccess, onCancel }: AddItemFormProps) {
           onChange={(e) =>
             setFormData((prev) => ({ ...prev, productName: e.target.value }))
           }
-          required
+          required={!prefill?.product_id}
           error={!!errors.productName}
         />
         {errors.productName && (

@@ -108,7 +108,7 @@ Respond ONLY with valid JSON, no additional text.`
 }
 
 async function callAnthropicAPI(prompt: string): Promise<ExpirationResponse> {
-  const apiKey = Deno.env.get('ANTHROPIC_API_KEY');
+  const apiKey = Deno.env.get('ANTHROPIC_API_KEY')
 
   if (!apiKey) {
     throw new Error('ANTHROPIC_API_KEY environment variable is not set')
@@ -127,7 +127,7 @@ async function callAnthropicAPI(prompt: string): Promise<ExpirationResponse> {
       messages: [
         {
           role: 'user',
-          content: prompt, 
+          content: prompt,
         },
       ],
     }),

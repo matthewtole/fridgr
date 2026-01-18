@@ -81,10 +81,10 @@ export async function fetchInventoryItem(
 }
 
 export async function createInventoryItem(
-  data: InventoryItemInsert & { productName?: string }
+  data: InventoryItemInsert & { productName?: string; barcode?: string }
 ): Promise<InventoryItem> {
   let productId = data.product_id
-  const { productName, ...rest } = data
+  const { productName, barcode, ...rest } = data
 
   // If product name is provided but no product_id, create a product entry
   if (productName && !productId) {
@@ -101,9 +101,20 @@ export async function createInventoryItem(
     }
 
     productId = product.id
+
+    // If barcode was also provided (e.g. from scan-not-found), link it for future lookups
+    if (barcode && barcode.trim()) {
+      const { error: bcError } = await supabase
+        .from('product_barcodes')
+        .insert({ barcode: barcode.trim(), product_id: product.id })
+      if (bcError) {
+        // Best-effort: barcode may already exist; still create the inventory item
+        console.warn('Could not link barcode to product:', bcError.message)
+      }
+    }
   }
 
-  // Create final data without productName
+  // Create final data without productName or barcode
   const finalData: InventoryItemInsert = {
     ...rest,
     product_id: productId || null,
@@ -151,9 +162,12 @@ export async function deleteInventoryItem(id: number): Promise<void> {
 export async function parseInventoryText(
   text: string
 ): Promise<ParsedInventoryItem[]> {
-  const { data, error } = await supabase.functions.invoke('parse-inventory-text', {
-    body: { text },
-  })
+  const { data, error } = await supabase.functions.invoke(
+    'parse-inventory-text',
+    {
+      body: { text },
+    }
+  )
 
   if (error) {
     throw new Error(`Failed to parse inventory text: ${error.message}`)
@@ -171,7 +185,9 @@ export async function createInventoryItemsBatch(
 ): Promise<InventoryItem[]> {
   // First, create all products and collect their IDs
   const productMap = new Map<string, number>()
-  const itemsWithProductIds: Array<InventoryItemInsert & { productName?: string }> = []
+  const itemsWithProductIds: Array<
+    InventoryItemInsert & { productName?: string }
+  > = []
 
   // Process items to create products first
   for (const item of items) {

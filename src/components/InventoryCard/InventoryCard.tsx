@@ -28,7 +28,9 @@ export function InventoryCard({ item, onEdit }: InventoryCardProps) {
   }
 
   const formatLocation = () => {
-    return item.locationName.charAt(0).toUpperCase() + item.locationName.slice(1)
+    return (
+      item.locationName.charAt(0).toUpperCase() + item.locationName.slice(1)
+    )
   }
 
   return (
@@ -38,7 +40,8 @@ export function InventoryCard({ item, onEdit }: InventoryCardProps) {
         maxWidth: '400px',
         backgroundColor: 'white',
         borderRadius: '1rem',
-        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
+        boxShadow:
+          '0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06)',
         padding: '2rem',
         display: 'flex',
         flexDirection: 'column',
